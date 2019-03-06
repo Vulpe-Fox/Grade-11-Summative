@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -21,6 +22,9 @@ public class SummativeGame extends JComponent implements ActionListener {
      */
     private static final long serialVersionUID = 790622003833586344L;
 
+    double yScreen = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    double xScreen = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    
     // Height and Width of our game
     static final int WIDTH = 800;
     static final int HEIGHT = 600;
