@@ -196,6 +196,8 @@ public class SummativeGame extends JComponent implements ActionListener {
             g.fillPolygon(xQuad, yQuad, 4);
         }
         
+        user.draw(g);
+        
         // GAME DRAWING ENDS HERE
     }
 
