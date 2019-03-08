@@ -15,6 +15,7 @@ import java.awt.event.MouseWheelEvent;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import objects.Player;
 
 public class SummativeGame extends JComponent implements ActionListener {
 
@@ -46,10 +47,15 @@ public class SummativeGame extends JComponent implements ActionListener {
     //Definitions of Position Variables
     public static int area = 0;
     
+    //(Player)
+    public static int playerPosX;
+    public static int playerPosY;
+    
     //Definitions of Colours
     public static Color gameGreen = new Color(151, 220, 51);
     public static Color gameBlue = new Color(55, 231, 93);
     public static Color gameYellow = new Color(192, 248, 61);
+    public static Color gameDebug = new Color(255, 0, 255);
     
     //Definitions of Drawing Points
     public static int xTriangle[] = new int[3];
@@ -63,6 +69,9 @@ public class SummativeGame extends JComponent implements ActionListener {
     
     public static int xOct[] = new int[8];
     public static int yOct[] = new int[8];
+    
+    //Definitions of Game Objects
+    public static Player user;
 
     // YOUR GAME VARIABLES WOULD GO HERE
     // GAME VARIABLES END HERE    
@@ -194,7 +203,9 @@ public class SummativeGame extends JComponent implements ActionListener {
     // This is run before the game loop begins!
     public void preSetup() {
         // Any of your pre setup before the loop starts should go here
-        
+        playerPosX = 560;
+        playerPosY = 575;
+        user = new Player(playerPosX, playerPosY);
     }
 
     // The main game loop
