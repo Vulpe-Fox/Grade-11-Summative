@@ -35,7 +35,7 @@ public class Player extends Entity{
     }
     
     private void move(){
-        
+        x += xAdjust;
     }
     
     public void adjustXPos(int i){
