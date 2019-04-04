@@ -1,5 +1,7 @@
 package game;
 
+import audio.Music;
+import audio.MusicLoop;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -24,12 +26,13 @@ public class SummativeGame extends JComponent implements ActionListener {
      */
     private static final long serialVersionUID = 790622003833586344L;
 
-    static double xScreen = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-    static double yScreen = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    static final double xScreen = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    static final double yScreen = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     
     // Height and Width of our game
     static final int WIDTH = (int) xScreen*6/7;
     static final int HEIGHT = (int) yScreen*6/7;
+
 
     //Title of the window
     String title = "This Game";
@@ -50,6 +53,10 @@ public class SummativeGame extends JComponent implements ActionListener {
     //(Player)
     public static int playerPosX;
     public static int playerPosY;
+    
+    //Sounds
+    public static MusicLoop musicLoop = new MusicLoop();
+    public static int songId;
     
     //Definitions of Colours
     public static Color gameGreen = new Color(151, 220, 51);
@@ -205,6 +212,19 @@ public class SummativeGame extends JComponent implements ActionListener {
     // This is run before the game loop begins!
     public void preSetup() {
         // Any of your pre setup before the loop starts should go here
+        Music.initialization();
+        Music.setListenerData();
+        songId = 1;
+        musicLoop.start();
+        synchronized(musicLoop){
+            try{
+                System.out.println("Waiting for music to Initialize...");
+                musicLoop.wait();
+            }catch(InterruptedException e){
+                System.out.println(e);
+            }
+        }
+        
         playerPosX = 560;
         playerPosY = 575;
         user = new Player(playerPosX, playerPosY);
@@ -306,6 +326,10 @@ public class SummativeGame extends JComponent implements ActionListener {
         // creates an instance of my game
         @SuppressWarnings("unused")
         SummativeGame game = new SummativeGame();
+    }
+    
+    public static int getSongId() {
+        return songId;
     }
 
 }

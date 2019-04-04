@@ -14,7 +14,7 @@ import org.lwjgl.openal.ALC;
  *
  * @author carmc9538
  */
-public class Music extends Thread{
+public class Music{
     
     private static List<Integer> buffers = new ArrayList<Integer>();
     
