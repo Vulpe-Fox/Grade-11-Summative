@@ -23,7 +23,7 @@ public class Music{
     }
     
     public static void ALCreate(){
-        ALC.create();
+    //    ALC.create();
     }
     
    public static void setListenerData(){
@@ -40,11 +40,11 @@ public class Music{
         return buffer;
     }
     
-    public static void cleaning(){
+    /*public static void cleaning(){
         buffers.forEach((buffer) -> {
             AL10.alDeleteBuffers(buffer);
         });
         ALC.destroy();
-    }
+    }*/
     
 }

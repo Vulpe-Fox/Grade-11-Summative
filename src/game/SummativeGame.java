@@ -79,6 +79,8 @@ public class SummativeGame extends JComponent implements ActionListener {
     
     //Definitions of Game Objects
     public static Player user;
+    
+    public static boolean mapCreated = false;
 
     // YOUR GAME VARIABLES WOULD GO HERE
     // GAME VARIABLES END HERE    
@@ -212,8 +214,8 @@ public class SummativeGame extends JComponent implements ActionListener {
     // This is run before the game loop begins!
     public void preSetup() {
         // Any of your pre setup before the loop starts should go here
-        Music.initialization();
-        Music.setListenerData();
+        //Music.initialization();
+        //Music.setListenerData();
         songId = 1;
         musicLoop.start();
         synchronized(musicLoop){
@@ -303,13 +305,38 @@ public class SummativeGame extends JComponent implements ActionListener {
         // if a key has been pressed down
         @Override
         public void keyPressed(KeyEvent e) {
-
+            if(!mapCreated){
+                if(e.getKeyChar() == 'a'){
+                    user.adjustXPos(-3);
+                }
+                if(e.getKeyChar() == 'd'){
+                    user.adjustXPos(+3);
+                }
+            } else{
+                if(e.getKeyChar() == 'a'){
+                    user.adjustXPos(-3);
+                }
+                if(e.getKeyChar() == 'd'){
+                    user.adjustXPos(+3);
+                }
+            }
         }
 
         // if a key has been released
         @Override
         public void keyReleased(KeyEvent e) {
-
+            if(e.getKeyChar() == 'a'){
+                user.adjustXPos(0);
+            }
+            if(e.getKeyChar() == 'd'){
+                user.adjustXPos(0);
+            }
+            if(e.getKeyChar() == 'w'){
+                //user.adjustYPos(0);
+            }
+            if(e.getKeyChar() == 's'){
+                //user.adjustYPos(0);
+            }
         }
     }
 
