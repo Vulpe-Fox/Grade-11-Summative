@@ -1,6 +1,5 @@
 package game;
 
-import audio.Music;
 import audio.MusicLoop;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +12,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -81,6 +83,11 @@ public class SummativeGame extends JComponent implements ActionListener {
     public static Player user;
     
     public static boolean mapCreated = false;
+    
+    //Images
+    BufferedImage startButton = loadImage("Start.png");
+    BufferedImage premadeButton = loadImage("Premade Map.png");
+    BufferedImage exitButton = loadImage("Exit.png");
 
     // YOUR GAME VARIABLES WOULD GO HERE
     // GAME VARIABLES END HERE    
@@ -90,6 +97,7 @@ public class SummativeGame extends JComponent implements ActionListener {
         // creates a windows to show my game
         JFrame frame = new JFrame(title);
         // sets the size of my game
+   
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         // adds the game to the window
         frame.add(this);
@@ -98,6 +106,7 @@ public class SummativeGame extends JComponent implements ActionListener {
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        
         // shows the window to the user
         frame.setVisible(true);
 
@@ -115,6 +124,17 @@ public class SummativeGame extends JComponent implements ActionListener {
         gameTimer = new Timer(desiredTime, this);
         gameTimer.setRepeats(true);
         gameTimer.start();
+    }
+    
+    
+    public BufferedImage loadImage(String filename){
+        BufferedImage image = null;
+        try{
+            image = ImageIO.read(new File(filename));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return image;
     }
 
     // drawing of the game happens in here
@@ -203,6 +223,10 @@ public class SummativeGame extends JComponent implements ActionListener {
             defineQuad(xQuad, 845, 865, 865, 845);
             defineQuad(yQuad, 182, 182, 198, 198);
             g.fillPolygon(xQuad, yQuad, 4);
+            
+            g.drawImage(startButton, 230, 525, null);
+            g.drawImage(premadeButton, 460, 525, null);
+            g.drawImage(exitButton, 690, 525, null);
         }
         
         user.draw(g);
@@ -235,7 +259,11 @@ public class SummativeGame extends JComponent implements ActionListener {
     // The main game loop
     // In here is where all the logic for my game will go
     public void gameLoop() {
-
+        if(!mapCreated){
+            
+        } else{
+            
+        }
     }
 
     private void defineTriangle(int[] array, int p1, int p2, int p3) {
@@ -305,19 +333,39 @@ public class SummativeGame extends JComponent implements ActionListener {
         // if a key has been pressed down
         @Override
         public void keyPressed(KeyEvent e) {
+            //Menu movement left/right, z to select
             if(!mapCreated){
-                if(e.getKeyChar() == 'a'){
-                    user.adjustXPos(-3);
+                if(e.getKeyChar() == 'a' && user.getXPosition() >= 220){
+                    user.adjustXPos(-9);
                 }
-                if(e.getKeyChar() == 'd'){
-                    user.adjustXPos(+3);
+                if(e.getKeyChar() == 'd' && user.getXPosition() <= 890){
+                    user.adjustXPos(+9);
                 }
+                if(e.getKeyChar() == 'z' && user.getXPosition() >= 230 && user.getXPosition() <= 425){
+                    
+                }
+                if(e.getKeyChar() == 'z' && user.getXPosition() >= 460 && user.getXPosition() <= 655){
+                    
+                }
+                if(e.getKeyChar() == 'z' && user.getXPosition() >= 690 && user.getXPosition() <= 885){
+                    
+                }
+                if(e.getKeyChar() == 'f'){
+                    System.out.println(user.getXPosition());
+                }
+            //Game movement up/down, z to select
             } else{
                 if(e.getKeyChar() == 'a'){
                     user.adjustXPos(-3);
                 }
                 if(e.getKeyChar() == 'd'){
                     user.adjustXPos(+3);
+                }
+                if(e.getKeyChar() == 'w'){
+                    user.adjustYPos(-3);
+                }
+                if(e.getKeyChar() == 's'){
+                    user.adjustYPos(+3);
                 }
             }
         }
@@ -332,10 +380,10 @@ public class SummativeGame extends JComponent implements ActionListener {
                 user.adjustXPos(0);
             }
             if(e.getKeyChar() == 'w'){
-                //user.adjustYPos(0);
+                user.adjustYPos(0);
             }
             if(e.getKeyChar() == 's'){
-                //user.adjustYPos(0);
+                user.adjustYPos(0);
             }
         }
     }

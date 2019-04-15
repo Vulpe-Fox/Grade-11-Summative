@@ -15,6 +15,7 @@ import java.awt.Graphics;
 public class Player extends Entity{
     
     private int xAdjust;
+    private int yAdjust;
     
     public Player(int x, int y){
         super(x, y);
@@ -36,10 +37,23 @@ public class Player extends Entity{
     
     private void move(){
         x += xAdjust;
+        y += yAdjust;
     }
     
     public void adjustXPos(int i){
         xAdjust = i;
+    }
+    
+    public void adjustYPos(int i){
+        yAdjust = i;
+    }
+    
+    public int getXPosition(){
+        return x;
+    }
+    
+    public int getYPosition(){
+        return y;
     }
     
 }
