@@ -10,7 +10,7 @@ package objects;
  * @author carmc9538
  */
 public class Room {
-    public static int roomType;
+    public int roomType;
     
     public Room(int roomType, int roomLocationX, int roomLocationY){
         this.roomType = roomType;
@@ -20,7 +20,7 @@ public class Room {
         return roomType;
     }
     
-    public static void setRoomType(int i){
+    public void setRoomType(int i){
         roomType = i;
     }
 }
