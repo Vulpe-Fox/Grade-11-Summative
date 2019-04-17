@@ -341,15 +341,20 @@ public class SummativeGame extends JComponent implements ActionListener {
                 if(e.getKeyChar() == 'd' && user.getXPosition() <= 890){
                     user.adjustXPos(+9);
                 }
+                //Make map
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 230 && user.getXPosition() <= 425){
-                    
+                	mapCreated = true;
+                    MapGen.generateMap();
                 }
+                //Make premade map
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 460 && user.getXPosition() <= 655){
                     
                 }
+                //Close on exit
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 690 && user.getXPosition() <= 885){
-                    
+                    System.exit(0);
                 }
+                //Bugtest location data
                 if(e.getKeyChar() == 'f'){
                     System.out.println(user.getXPosition());
                 }
