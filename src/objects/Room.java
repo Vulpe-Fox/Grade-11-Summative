@@ -10,13 +10,17 @@ package objects;
  * @author carmc9538
  */
 public class Room {
-    public int roomType;
+    public static int roomType;
     
     public Room(int roomType, int roomLocationX, int roomLocationY){
-        roomType = this.roomType;
+        this.roomType = roomType;
     }
     
     public int getRoomType(){
         return roomType;
+    }
+    
+    public static void setRoomType(int i){
+        roomType = i;
     }
 }
