@@ -343,7 +343,7 @@ public class SummativeGame extends JComponent implements ActionListener {
                 }
                 //Make map
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 230 && user.getXPosition() <= 425){
-					mapCreated = true;
+					//mapCreated = true;
 					MapGen.generateMap();
                 }
                 //Make premade map

@@ -8,8 +8,22 @@ import objects.Room;
 public class MapGen {
 
 	public static Room[][] map = new Room[8][8];
+	
+	public static Integer[] greenOrb = new Integer[2];
+	public static Integer[] redOrb = new Integer[2];
+	public static Integer[] blueOrb = new Integer[2];
+	public static Integer[] yellowOrb = new Integer[2];
+	
+	public static Integer[] greenRecepticle = new Integer[2];
+	public static Integer[] redRecepticle = new Integer[2];
+	public static Integer[] blueRecepticle = new Integer[2];
+	public static Integer[] yellowRecepticle = new Integer[2];
+	
+	public static Integer[] trickRoom = new Integer[2];
+	public static Integer[] startingRoom = new Integer[2];
 
 	public static ArrayList<Integer> rooms = new ArrayList<>();
+	public static ArrayList<Integer[]> coordinates = new ArrayList<>();
 
 	public static boolean top;
 	public static boolean right;
@@ -19,6 +33,9 @@ public class MapGen {
 	public static boolean undefRight;
 	public static boolean undefBottom;
 	public static boolean undefLeft;
+	
+	public static boolean coordinatesFound;
+	public static boolean duplicatePoints;
 
 	public static int verticalEdge;
 	public static int horizontalEdge;
@@ -55,10 +72,15 @@ public class MapGen {
 		}
 		System.out.println("Vertical edge shift: " + verticalEdge);
 		System.out.println("Horizontal edge shift: " + horizontalEdge);
+		
+		setRooms();
+		
+		for(int i = 0; i < coordinates.size(); i++) {
+			System.out.println(coordinates.get(i)[0] + ", " + coordinates.get(i)[1]);
+		}
 	}
 
-	/*
-	 * Room types: 
+	/* Room types: 
 	 * 0: N-E-S 
 	 * 1: N-S 
 	 * 2: N-S-W 
@@ -71,6 +93,108 @@ public class MapGen {
 	 * 9: S-W 
 	 * 10: N-S, E-W
 	 */
+
+	private static void setRooms() {
+		coordinates.clear();
+		coordinatesFound = false;
+		greenOrb[0] = random.nextInt(8);
+		greenOrb[1] = random.nextInt(8);
+		coordinates.add(greenOrb);
+		while(!coordinatesFound) {
+			redOrb[0] = random.nextInt(8);
+			redOrb[1] = random.nextInt(8);
+			if(compareCoordinates(redOrb, coordinates)) {
+				coordinatesFound = true;
+			}
+		}
+		coordinates.add(redOrb);
+		coordinatesFound = false;
+		while(!coordinatesFound) {
+			blueOrb[0] = random.nextInt(8);
+			blueOrb[1] = random.nextInt(8);
+			if(compareCoordinates(blueOrb, coordinates)) {
+				coordinatesFound = true;
+			}
+		}
+		coordinates.add(blueOrb);
+		coordinatesFound = false;
+		while(!coordinatesFound) {
+			yellowOrb[0] = random.nextInt(8);
+			yellowOrb[1] = random.nextInt(8);
+			if(compareCoordinates(yellowOrb, coordinates)) {
+				coordinatesFound = true;
+			}
+		}
+		coordinates.add(yellowOrb);
+		coordinatesFound = false;
+		while(!coordinatesFound) {
+			greenRecepticle[0] = random.nextInt(8);
+			greenRecepticle[1] = random.nextInt(8);
+			if(compareCoordinates(greenRecepticle, coordinates)) {
+				coordinatesFound = true;
+			}
+		}
+		coordinates.add(greenRecepticle);
+		coordinatesFound = false;
+		while(!coordinatesFound) {
+			redRecepticle[0] = random.nextInt(8);
+			redRecepticle[1] = random.nextInt(8);
+			if(compareCoordinates(redRecepticle, coordinates)) {
+				coordinatesFound = true;
+			}
+		}
+		coordinates.add(redRecepticle);
+		coordinatesFound = false;
+		while(!coordinatesFound) {
+			blueRecepticle[0] = random.nextInt(8);
+			blueRecepticle[1] = random.nextInt(8);
+			if(compareCoordinates(blueRecepticle, coordinates)) {
+				coordinatesFound = true;
+			}
+		}
+		coordinates.add(blueRecepticle);
+		coordinatesFound = false;
+		while(!coordinatesFound) {
+			yellowRecepticle[0] = random.nextInt(8);
+			yellowRecepticle[1] = random.nextInt(8);
+			if(compareCoordinates(yellowRecepticle, coordinates)) {
+				coordinatesFound = true;
+			}
+		}
+		coordinates.add(yellowRecepticle);
+		coordinatesFound = false;
+		while(!coordinatesFound) {
+			trickRoom[0] = random.nextInt(8);
+			trickRoom[1] = random.nextInt(8);
+			if(compareCoordinates(trickRoom, coordinates)) {
+				coordinatesFound = true;
+			}
+		}
+		coordinates.add(trickRoom);
+		coordinatesFound = false;
+		while(!coordinatesFound) {
+			startingRoom[0] = random.nextInt(8);
+			startingRoom[1] = random.nextInt(8);
+			if(compareCoordinates(startingRoom, coordinates)) {
+				coordinatesFound = true;
+			}
+		}
+		coordinates.add(startingRoom);
+	}
+
+	private static boolean compareCoordinates(Integer[] type, ArrayList<Integer[]> coord) {
+		duplicatePoints = false;
+		for(int i = 0; i < coord.size(); i++) {
+			if(coord.get(i)[0] == type[0] && coord.get(i)[1] == type[1]) {
+				duplicatePoints = true;
+			}
+		}
+		if(!duplicatePoints) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public static int chooseRoomType(int posX, int posY) {
 		if (posX == 0 && posY == 0) {
@@ -98,8 +222,7 @@ public class MapGen {
 		int relativeX;
 		int relativeY;
 		// Above room
-		// If passes top threshhold, adjust X position, but ensure the posX doesn't go
-		// out of bounds
+		// If passes top threshhold, adjust X position, but ensure the posX doesn't go out of bounds
 		if (posY - 1 < 0) {
 			relativeY = 7;
 			if (posX - horizontalEdge < 0) {
@@ -114,7 +237,7 @@ public class MapGen {
 		}
 		// Check all undefined or southfacing rooms
 		if ((map[relativeX][relativeY].getRoomType() >= 0 && map[relativeX][relativeY].getRoomType() <= 2)
-				|| (map[relativeX][relativeY].getRoomType() >= 7 || map[relativeX][relativeY].getRoomType() <= 10)) {
+				|| (map[relativeX][relativeY].getRoomType() >= 7 && map[relativeX][relativeY].getRoomType() <= 10)) {
 			top = true;
 		}
 		if (map[relativeX][relativeY].getRoomType() == -1) {
@@ -122,8 +245,7 @@ public class MapGen {
 		}
 
 		// Right room
-		// If passes right threshhold, adjust Y position, but ensure the posY doesn't go
-		// out of bounds
+		// If passes right threshhold, adjust Y position, but ensure the posY doesn't go out of bounds
 		if (posX + 1 > 7) {
 			relativeX = 0;
 			if (posY - verticalEdge < 0) {
@@ -132,7 +254,7 @@ public class MapGen {
 				relativeY = posY - verticalEdge;
 			}
 		} else {
-			// If doesn't pass top threshhold, X position remains the same
+			// If doesn't pass right threshhold, Y position remains the same
 			relativeY = posY;
 			relativeX = posX + 1;
 		}
@@ -147,8 +269,7 @@ public class MapGen {
 		}
 
 		// Bottom room
-		// If passes bottom threshhold, adjust X position, but ensure the posX doesn't
-		// go out of bounds
+		// If passes bottom threshhold, adjust X position, but ensure the posX doesn't go out of bounds
 		if (posY + 1 > 7) {
 			relativeY = 0;
 			if (posX + horizontalEdge > 7) {
@@ -157,22 +278,22 @@ public class MapGen {
 				relativeX = posX + horizontalEdge;
 			}
 		} else {
-			// If doesn't pass top threshhold, X position remains the same
+			// If doesn't pass bottom threshhold, X position remains the same
 			relativeY = posY + 1;
 			relativeX = posX;
 		}
 		// Check all undefined or northfacing rooms
-		if ((map[relativeX][relativeY].getRoomType() >= 0 && map[relativeX][relativeY].getRoomType() <= 5)
-				|| map[relativeX][relativeY].getRoomType() == 10) {
+		if (map[relativeX][relativeY].getRoomType() == 0 || map[relativeX][relativeY].getRoomType() == 1  || map[relativeX][relativeY].getRoomType() == 2 
+				|| map[relativeX][relativeY].getRoomType() == 3 || map[relativeX][relativeY].getRoomType() == 4
+				|| map[relativeX][relativeY].getRoomType() == 5 || map[relativeX][relativeY].getRoomType() == 10) {
 			bottom = true;
 		}
 		if (map[relativeX][relativeY].getRoomType() == -1) {
 			undefBottom = true;
 		}
-
+		
 		// Left room
-		// If passes left threshhold, adjust Y position, but ensure the posY doesn't go
-		// out of bounds
+		// If passes left threshhold, adjust Y position, but ensure the posY doesn't go out of bounds
 		if (posX - 1 < 0) {
 			relativeX = 7;
 			if (posY + verticalEdge > 7) {
@@ -181,7 +302,7 @@ public class MapGen {
 				relativeY = posY + verticalEdge;
 			}
 		} else {
-			// If doesn't pass top threshhold, X position remains the same
+			// If doesn't pass left threshhold, Y position remains the same
 			relativeY = posY;
 			relativeX = posX - 1;
 		}
