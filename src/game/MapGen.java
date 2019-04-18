@@ -395,19 +395,19 @@ public class MapGen {
 			rooms.add(10);
 		}
                 //Type 11
-                if((top || undefTop) && !left && !right && !bottom){
+                if((top || undefTop) && !left && !right && !bottom && !undefLeft && !undefBottom && !undefRight){
                     rooms.add(11);
                 }
                 //Type 12
-                if((right || undefRight) && !left && !top && !bottom){
+                if((right || undefRight) && !left && !top && !bottom  && !undefLeft && !undefBottom && !undefTop){
                     rooms.add(12);
                 }
                 //Type 13
-                if((bottom || undefBottom) && !left && !right && !top){
+                if((bottom || undefBottom) && !left && !right && !top  && !undefLeft && !undefTop && !undefRight){
                     rooms.add(13);
                 }
                 //Type 14
-                if((left || undefLeft) && !top && !right && !bottom){
+                if((left || undefLeft) && !top && !right && !bottom  && !undefTop && !undefBottom && !undefRight){
                     rooms.add(14);
                 }
 		//Chooses from arraylist
