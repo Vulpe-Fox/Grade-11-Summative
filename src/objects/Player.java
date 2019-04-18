@@ -56,4 +56,9 @@ public class Player extends Entity{
         return y;
     }
     
+    public void setPosition(int x, int y) {
+    	this.x = x;
+    	this.y = y;
+    }
+    
 }

@@ -50,7 +50,7 @@ public class SummativeGame extends JComponent implements ActionListener {
     Timer gameTimer;
     
     //Definitions of Position Variables
-    public static int area = 0;
+    public static int area = -1;
     
     //(Player)
     public static int playerPosX;
@@ -146,7 +146,7 @@ public class SummativeGame extends JComponent implements ActionListener {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
-        if(area == 0){
+        if(area == -1){
             //Title Box
             g.setColor(gameGreen);
 
@@ -154,10 +154,10 @@ public class SummativeGame extends JComponent implements ActionListener {
             defineTriangle(yTriangle, 1, 130, 250);
             g.fillPolygon(xTriangle, yTriangle, 3);
 
-            defineTriangle(xTriangle, WIDTH-1, WIDTH-200, WIDTH-200);
+            defineTriangle(xTriangle, 1119, 920, 920);
             g.fillPolygon(xTriangle, yTriangle, 3);
 
-            g.drawRect(200, 130, WIDTH-2*200, 120);
+            g.drawRect(200, 130, 720, 120);
             //Title Box
 
             //Line
@@ -344,7 +344,8 @@ public class SummativeGame extends JComponent implements ActionListener {
                 }
                 //Make map
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 230 && user.getXPosition() <= 425){
-					//mapCreated = true;
+					mapCreated = true;
+					user.setPosition(555, 450);
 					MapGen.generateMap();
                 }
                 //Make premade map
