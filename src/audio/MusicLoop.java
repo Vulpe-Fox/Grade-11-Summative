@@ -20,6 +20,10 @@ public class MusicLoop extends Thread{
     
     @Override
     public void run(){
+        
+        Music.initialization();
+        System.out.println("Music Initialized");
+        
         while(gameRunning = true){
             songId = SummativeGame.getSongId();
             switch(songId){
@@ -46,8 +50,6 @@ public class MusicLoop extends Thread{
                 source.delete();
                 Music.cleaning();
             }
-            
-            notify();
         }
     }
 }

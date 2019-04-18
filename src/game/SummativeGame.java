@@ -57,7 +57,7 @@ public class SummativeGame extends JComponent implements ActionListener {
     public static int playerPosY;
     
     //Sounds
-    public static MusicLoop musicLoop = new MusicLoop();
+    public static final MusicLoop musicLoop = new MusicLoop();
     public static int songId;
     
     //Definitions of Colours
@@ -228,8 +228,10 @@ public class SummativeGame extends JComponent implements ActionListener {
             g.drawImage(premadeButton, 460, 525, null);
             g.drawImage(exitButton, 690, 525, null);
         }
-        
-        user.draw(g);
+        try{
+            user.draw(g);
+        }
+        catch(Exception e){}
         
         // GAME DRAWING ENDS HERE
     }
@@ -238,6 +240,10 @@ public class SummativeGame extends JComponent implements ActionListener {
     // This is run before the game loop begins!
     public void preSetup() {
         // Any of your pre setup before the loop starts should go here
+        //Define player start
+        playerPosX = 560;
+        playerPosY = 575;
+        user = new Player(playerPosX, playerPosY);
         //Music.initialization();
         //Music.setListenerData();
         songId = 1;
@@ -245,15 +251,10 @@ public class SummativeGame extends JComponent implements ActionListener {
         synchronized(musicLoop){
             try{
                 System.out.println("Waiting for music to Initialize...");
-                musicLoop.wait();
-            }catch(InterruptedException e){
+            }catch(Exception e){
                 System.out.println(e);
             }
         }
-        
-        playerPosX = 560;
-        playerPosY = 575;
-        user = new Player(playerPosX, playerPosY);
     }
 
     // The main game loop
