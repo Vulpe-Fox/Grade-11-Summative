@@ -62,6 +62,7 @@ public class SummativeGame extends JComponent implements ActionListener {
     
     //Definitions of Colours
     public static Color gameGreen = new Color(151, 220, 51);
+    public static Color gameRed = new Color(190, 33, 33);
     public static Color gameBlue = new Color(55, 231, 93);
     public static Color gameYellow = new Color(192, 248, 61);
     public static Color gameDebug = new Color(255, 0, 255);
@@ -224,10 +225,15 @@ public class SummativeGame extends JComponent implements ActionListener {
             defineQuad(yQuad, 182, 182, 198, 198);
             g.fillPolygon(xQuad, yQuad, 4);
             
-            g.drawImage(startButton, 230, 525, null);
-            g.drawImage(premadeButton, 460, 525, null);
-            g.drawImage(exitButton, 690, 525, null);
+                g.drawImage(startButton, 230, 525, null);
+                g.drawImage(premadeButton, 460, 525, null);
+                g.drawImage(exitButton, 690, 525, null);
+        } else{
+            
         }
+        
+        
+        //Draw user
         try{
             user.draw(g);
         }
@@ -239,6 +245,7 @@ public class SummativeGame extends JComponent implements ActionListener {
     // This method is used to do any pre-setup you might need to do
     // This is run before the game loop begins!
     public void preSetup() {
+        System.out.println(WIDTH + " " + HEIGHT);
         // Any of your pre setup before the loop starts should go here
         //Define player start
         playerPosX = 560;
@@ -261,7 +268,12 @@ public class SummativeGame extends JComponent implements ActionListener {
     // In here is where all the logic for my game will go
     public void gameLoop() {
         if(!mapCreated){
-            
+            if(user.getXPosition() > 885){
+                user.setXPosition(230);
+            }
+            if(user.getXPosition() < 230){
+                user.setXPosition(885);
+            }
         } else{
             
         }
@@ -344,9 +356,9 @@ public class SummativeGame extends JComponent implements ActionListener {
                 }
                 //Make map
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 230 && user.getXPosition() <= 425){
-					mapCreated = true;
-					user.setPosition(555, 450);
-					MapGen.generateMap();
+                    mapCreated = true;
+                    user.setPosition(555, 450);
+                    MapGen.generateMap();
                 }
                 //Make premade map
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 460 && user.getXPosition() <= 655){

@@ -89,10 +89,14 @@ public class MapGen {
 		System.out.println("Horizontal edge shift: " + horizontalEdge);
 		
 		setRooms();
-		
-		for(int i = 0; i < coordinates.size(); i++) {
+                
+                SummativeGame.user.setXPosition(557);
+                SummativeGame.user.setYPosition(425);
+                
+		//Print what's in rooms to the console
+		/*for(int i = 0; i < coordinates.size(); i++) {
 			System.out.println(coordinates.get(i)[0] + ", " + coordinates.get(i)[1]);
-		}
+		}*/
 	}
 
 	/* Room types: 
@@ -200,7 +204,7 @@ public class MapGen {
 		}
 		coordinates.add(startingRoom);
 	}
-
+        //Checks to ensure coordinates don't coincide
 	private static boolean compareCoordinates(Integer[] type, ArrayList<Integer[]> coord) {
 		duplicatePoints = false;
 		for(int i = 0; i < coord.size(); i++) {
@@ -208,11 +212,7 @@ public class MapGen {
 				duplicatePoints = true;
 			}
 		}
-		if(!duplicatePoints) {
-			return true;
-		} else {
-			return false;
-		}
+            return !duplicatePoints;
 	}
 
 	public static int chooseRoomType(int posX, int posY) {
@@ -227,7 +227,7 @@ public class MapGen {
 		return type;
 	}
 
-	public static int generateList(int posX, int posY) {
+	public static int generateList(int posY, int posX) {
 		//Reset room configurations
 		rooms.clear();
 		top = false;
@@ -245,10 +245,10 @@ public class MapGen {
 		// If passes top threshhold, adjust X position left, but ensure the posX doesn't go out of bounds
 		if (posY - 1 < 0) {
 			relativeY = 7;
-			if (posX - horizontalEdge < 0) {
-				relativeX = posX - horizontalEdge + 8;
+			if (posX - verticalEdge < 0) {
+				relativeX = posX - verticalEdge + 8;
 			} else {
-				relativeX = posX - horizontalEdge;
+				relativeX = posX - verticalEdge;
 			}
 		} else {
 			// If doesn't pass top threshhold, X position remains the same
@@ -256,13 +256,13 @@ public class MapGen {
 			relativeX = posX;
 		}
 		// Check whether top room is south-facing or undefined
-		if (map[relativeX][relativeY].getRoomType() == 0 || map[relativeX][relativeY].getRoomType() == 1
-			|| map[relativeX][relativeY].getRoomType() == 2 || map[relativeX][relativeY].getRoomType() == 7
-                        || map[relativeX][relativeY].getRoomType() == 8 || map[relativeX][relativeY].getRoomType() == 9
-                        || map[relativeX][relativeY].getRoomType() == 10) {
+		if (map[relativeY][relativeX].getRoomType() == 0 || map[relativeY][relativeX].getRoomType() == 1
+			|| map[relativeY][relativeX].getRoomType() == 2 || map[relativeY][relativeX].getRoomType() == 7
+                        || map[relativeY][relativeX].getRoomType() == 8 || map[relativeY][relativeX].getRoomType() == 9
+                        || map[relativeY][relativeX].getRoomType() == 10) {
 			top = true;
 		}
-		if (map[relativeX][relativeY].getRoomType() == -1) {
+		if (map[relativeY][relativeX].getRoomType() == -1) {
 			undefTop = true;
 		}
 
@@ -270,10 +270,10 @@ public class MapGen {
 		// If passes right threshhold, adjust Y position downwards, but ensure the posY doesn't go out of bounds
 		if (posX + 1 > 7) {
 			relativeX = 0;
-			if (posY + verticalEdge > 7) {
-				relativeY = posY + verticalEdge - 8;
+			if (posY + horizontalEdge > 7) {
+				relativeY = posY + horizontalEdge - 8;
 			} else {
-				relativeY = posY + verticalEdge;
+				relativeY = posY + horizontalEdge;
 			}
 		} else {
 			// If doesn't pass right threshhold, Y position remains the same
@@ -281,12 +281,12 @@ public class MapGen {
 			relativeX = posX + 1;
 		}
 		// Check whether right room is west-facing or undefined
-		if (map[relativeX][relativeY].getRoomType() == 2 || map[relativeX][relativeY].getRoomType() == 3
-				|| map[relativeX][relativeY].getRoomType() == 5 || map[relativeX][relativeY].getRoomType() == 6
-				|| map[relativeX][relativeY].getRoomType() == 8 || map[relativeX][relativeY].getRoomType() == 10) {
+		if (map[relativeY][relativeX].getRoomType() == 2 || map[relativeY][relativeX].getRoomType() == 3
+				|| map[relativeY][relativeX].getRoomType() == 5 || map[relativeY][relativeX].getRoomType() == 6
+				|| map[relativeY][relativeX].getRoomType() == 8 || map[relativeY][relativeX].getRoomType() == 10) {
 			right = true;
 		}
-		if (map[relativeX][relativeY].getRoomType() == -1) {
+		if (map[relativeY][relativeX].getRoomType() == -1) {
 			undefRight = true;
 		}
 
@@ -294,10 +294,10 @@ public class MapGen {
 		// If passes bottom threshhold, adjust X position to the right, but ensure the posX doesn't go out of bounds
 		if (posY + 1 > 7) {
 			relativeY = 0;
-			if (posX + horizontalEdge > 7) {
-				relativeX = posX + horizontalEdge - 8;
+			if (posX + verticalEdge > 7) {
+				relativeX = posX + verticalEdge - 8;
 			} else {
-				relativeX = posX + horizontalEdge;
+				relativeX = posX + verticalEdge;
 			}
 		} else {
 			// If doesn't pass bottom threshhold, X position remains the same
@@ -305,12 +305,12 @@ public class MapGen {
 			relativeX = posX;
 		}
 		// Check whether bottom room is north-facing or undefined
-		if (map[relativeX][relativeY].getRoomType() == 0 || map[relativeX][relativeY].getRoomType() == 1  || map[relativeX][relativeY].getRoomType() == 2 
-				|| map[relativeX][relativeY].getRoomType() == 3 || map[relativeX][relativeY].getRoomType() == 4
-				|| map[relativeX][relativeY].getRoomType() == 5 || map[relativeX][relativeY].getRoomType() == 10) {
+		if (map[relativeY][relativeX].getRoomType() == 0 || map[relativeY][relativeX].getRoomType() == 1  || map[relativeX][relativeY].getRoomType() == 2 
+				|| map[relativeY][relativeX].getRoomType() == 3 || map[relativeY][relativeX].getRoomType() == 4
+				|| map[relativeY][relativeX].getRoomType() == 5 || map[relativeY][relativeX].getRoomType() == 10) {
 			bottom = true;
 		}
-		if (map[relativeX][relativeY].getRoomType() == -1) {
+		if (map[relativeY][relativeX].getRoomType() == -1) {
 			undefBottom = true;
 		}
 		
@@ -318,10 +318,10 @@ public class MapGen {
 		// If passes left threshhold, adjust Y position upwards, but ensure the posY doesn't go out of bounds
 		if (posX - 1 < 0) {
 			relativeX = 7;
-			if (posY - verticalEdge < 0) {
-				relativeY = posY - verticalEdge + 8;
+			if (posY - horizontalEdge < 0) {
+				relativeY = posY - horizontalEdge + 8;
 			} else {
-				relativeY = posY - verticalEdge;
+				relativeY = posY - horizontalEdge;
 			}
 		} else {
 			// If doesn't pass left threshhold, Y position remains the same
@@ -329,13 +329,13 @@ public class MapGen {
 			relativeX = posX - 1;
 		}
 		// Check whether left room is east-facing or undefined
-		if (map[relativeX][relativeY].getRoomType() == 0 || map[relativeX][relativeY].getRoomType() == 3
-				|| map[relativeX][relativeY].getRoomType() == 4 || map[relativeX][relativeY].getRoomType() == 6
-				|| map[relativeX][relativeY].getRoomType() == 7 || map[relativeX][relativeY].getRoomType() == 8
-				|| map[relativeX][relativeY].getRoomType() == 10) {
+		if (map[relativeY][relativeX].getRoomType() == 0 || map[relativeY][relativeX].getRoomType() == 3
+				|| map[relativeY][relativeX].getRoomType() == 4 || map[relativeY][relativeX].getRoomType() == 6
+				|| map[relativeY][relativeX].getRoomType() == 7 || map[relativeY][relativeX].getRoomType() == 8
+				|| map[relativeY][relativeX].getRoomType() == 10) {
 			left = true;
 		}
-		if (map[relativeX][relativeY].getRoomType() == -1) {
+		if (map[relativeY][relativeX].getRoomType() == -1) {
 			undefLeft = true;
 		}
 		// Logically make arraylist of possible rooms, then randomly choose from them
@@ -412,6 +412,10 @@ public class MapGen {
                 }
 		//Chooses from arraylist
 		if(rooms.size() > 0) {
+                        /*System.out.println("Rooms List:");
+                        for(int i = 0; i < rooms.size(); i++){
+                            System.out.println(rooms.get(i));
+                        }*/
 			position = random.nextInt(rooms.size());
 			return rooms.get(position);
 		} else {
