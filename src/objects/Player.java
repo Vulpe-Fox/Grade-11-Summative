@@ -17,21 +17,40 @@ public class Player extends Entity{
     private int xAdjust;
     private int yAdjust;
     
+    public static int itemHeld = 0;
+    
     public Player(int x, int y){
         super(x, y);
         
-        //length = image length;
-        //width = image width;
-        //Debug:
+        //l = image length;
+        //w = image width;
         l = 10;
         w = 10;
     }
     
+    @Override
     public void draw(Graphics g){
         move();
-        //TODO: Input image here to place at X/Y pos
-        //Debug:
-        g.setColor(SummativeGame.gameDebug);
+        //No Item
+        if(itemHeld == 0){
+            g.setColor(SummativeGame.gameDebug);
+        }
+        //Green Orb
+        if(itemHeld == 1){
+            g.setColor(SummativeGame.gameGreen);
+        }
+        //Red Orb
+        if(itemHeld == 2){
+            g.setColor(SummativeGame.gameRed);
+        }
+        //Blue Orb
+        if(itemHeld == 3){
+            g.setColor(SummativeGame.gameBlue);
+        }
+        //Yellow Orb
+        if(itemHeld == 4){
+            g.setColor(SummativeGame.gameYellow);
+        }
         g.fillOval(x, y, w, l);
     }
     
@@ -46,6 +65,14 @@ public class Player extends Entity{
     
     public void adjustYPos(int i){
         yAdjust = i;
+    }
+    
+    public void setXPosition(int i){
+       x = i; 
+    }
+    
+    public void setYPosition(int i){
+       y = i; 
     }
     
     public int getXPosition(){
