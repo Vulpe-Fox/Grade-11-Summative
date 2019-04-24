@@ -94,9 +94,9 @@ public class MapGen {
                 SummativeGame.user.setYPosition(425);
                 
 		//Print what's in rooms to the console
-		/*for(int i = 0; i < coordinates.size(); i++) {
+		for(int i = 0; i < coordinates.size(); i++) {
 			System.out.println(coordinates.get(i)[0] + ", " + coordinates.get(i)[1]);
-		}*/
+		}
 	}
 
 	/* Room types: 
@@ -259,7 +259,7 @@ public class MapGen {
 		if (map[relativeY][relativeX].getRoomType() == 0 || map[relativeY][relativeX].getRoomType() == 1
 			|| map[relativeY][relativeX].getRoomType() == 2 || map[relativeY][relativeX].getRoomType() == 7
                         || map[relativeY][relativeX].getRoomType() == 8 || map[relativeY][relativeX].getRoomType() == 9
-                        || map[relativeY][relativeX].getRoomType() == 10) {
+                        || map[relativeY][relativeX].getRoomType() == 10 || map[relativeY][relativeX].getRoomType() == 13) {
 			top = true;
 		}
 		if (map[relativeY][relativeX].getRoomType() == -1) {
@@ -283,7 +283,8 @@ public class MapGen {
 		// Check whether right room is west-facing or undefined
 		if (map[relativeY][relativeX].getRoomType() == 2 || map[relativeY][relativeX].getRoomType() == 3
 				|| map[relativeY][relativeX].getRoomType() == 5 || map[relativeY][relativeX].getRoomType() == 6
-				|| map[relativeY][relativeX].getRoomType() == 8 || map[relativeY][relativeX].getRoomType() == 10) {
+				|| map[relativeY][relativeX].getRoomType() == 8 || map[relativeY][relativeX].getRoomType() == 10 
+                                || map[relativeY][relativeX].getRoomType() == 14) {
 			right = true;
 		}
 		if (map[relativeY][relativeX].getRoomType() == -1) {
@@ -307,7 +308,8 @@ public class MapGen {
 		// Check whether bottom room is north-facing or undefined
 		if (map[relativeY][relativeX].getRoomType() == 0 || map[relativeY][relativeX].getRoomType() == 1  || map[relativeX][relativeY].getRoomType() == 2 
 				|| map[relativeY][relativeX].getRoomType() == 3 || map[relativeY][relativeX].getRoomType() == 4
-				|| map[relativeY][relativeX].getRoomType() == 5 || map[relativeY][relativeX].getRoomType() == 10) {
+				|| map[relativeY][relativeX].getRoomType() == 5 || map[relativeY][relativeX].getRoomType() == 10
+                                || map[relativeY][relativeX].getRoomType() == 11) {
 			bottom = true;
 		}
 		if (map[relativeY][relativeX].getRoomType() == -1) {
@@ -332,7 +334,7 @@ public class MapGen {
 		if (map[relativeY][relativeX].getRoomType() == 0 || map[relativeY][relativeX].getRoomType() == 3
 				|| map[relativeY][relativeX].getRoomType() == 4 || map[relativeY][relativeX].getRoomType() == 6
 				|| map[relativeY][relativeX].getRoomType() == 7 || map[relativeY][relativeX].getRoomType() == 8
-				|| map[relativeY][relativeX].getRoomType() == 10) {
+				|| map[relativeY][relativeX].getRoomType() == 10 || map[relativeY][relativeX].getRoomType() == 12) {
 			left = true;
 		}
 		if (map[relativeY][relativeX].getRoomType() == -1) {

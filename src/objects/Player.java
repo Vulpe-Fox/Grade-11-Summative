@@ -17,6 +17,9 @@ public class Player extends Entity{
     private int xAdjust;
     private int yAdjust;
     
+    public static int roomX;
+    public static int roomY;
+    
     public static int itemHeld = 0;
     
     public Player(int x, int y){
@@ -86,6 +89,18 @@ public class Player extends Entity{
     public void setPosition(int x, int y) {
     	this.x = x;
     	this.y = y;
+    }
+    
+    public void setRoom(int x, int y){
+        
+    }
+    
+    public int getRoomX(){
+        return roomX;
+    }
+    
+    public int getRoomY(){
+        return roomY;
     }
     
 }

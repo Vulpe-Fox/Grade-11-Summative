@@ -51,6 +51,7 @@ public class SummativeGame extends JComponent implements ActionListener {
     
     //Definitions of Position Variables
     public static int area = -1;
+    public static Integer[] heldPlayerLocation = new Integer[2];
     
     //(Player)
     public static int playerPosX;
@@ -89,6 +90,8 @@ public class SummativeGame extends JComponent implements ActionListener {
     BufferedImage startButton = loadImage("Start.png");
     BufferedImage premadeButton = loadImage("Premade Map.png");
     BufferedImage exitButton = loadImage("Exit.png");
+    BufferedImage resumeButton = loadImage("Resume.png");
+    BufferedImage restartButton = loadImage("Restart.png");
 
     // YOUR GAME VARIABLES WOULD GO HERE
     // GAME VARIABLES END HERE    
@@ -228,8 +231,87 @@ public class SummativeGame extends JComponent implements ActionListener {
                 g.drawImage(startButton, 230, 525, null);
                 g.drawImage(premadeButton, 460, 525, null);
                 g.drawImage(exitButton, 690, 525, null);
-        } else{
+        } else if(area == -2){
+            //Title Box
+            g.setColor(gameGreen);
+
+            defineTriangle(xTriangle, 1, 200, 200);
+            defineTriangle(yTriangle, 1, 130, 250);
+            g.fillPolygon(xTriangle, yTriangle, 3);
+
+            defineTriangle(xTriangle, 1119, 920, 920);
+            g.fillPolygon(xTriangle, yTriangle, 3);
+
+            g.drawRect(200, 130, 720, 120);
+            //Title Box
+
+            //Line
+            g.drawLine(575, 130, 545, 250);
+            //Line
+
+            //Words
+            g.setColor(gameBlue);
+            //T
+            defineOct(xOct, 220, 280, 280, 260, 260, 240, 240, 220);
+            defineOct(yOct, 150, 150, 170, 170, 230, 230, 170, 170);
+            g.fillPolygon(xOct, yOct, 8);
+            //H
+            defineQuad(xQuad, 300, 320, 320, 300);
+            defineQuad(yQuad, 150, 150, 230, 230);
+            g.fillPolygon(xQuad, yQuad, 4);
+            defineQuad(xQuad, 360, 340, 340, 360);
+            g.fillPolygon(xQuad, yQuad, 4);
+            defineQuad(xQuad, 320, 340, 340, 320);
+            defineQuad(yQuad, 182, 182, 198, 198);
+            g.fillPolygon(xQuad, yQuad, 4);
+            //I
+            defineOct(xOct, 380, 440, 440, 420, 420, 400, 400, 380);
+            defineOct(yOct, 150, 150, 165, 165, 230, 230, 165, 165);
+            g.fillPolygon(xOct, yOct, 8);
+            defineQuad(xQuad, 380, 440, 440, 380);
+            defineQuad(yQuad, 215, 215, 230, 230);
+            g.fillPolygon(xQuad, yQuad, 4);
+            //S
+            defineOct(xOct, 460, 520, 520, 475, 475, 490, 490, 460);
+            defineOct(yOct, 150, 150, 166, 166, 182, 182, 198, 198);
+            g.fillPolygon(xOct, yOct, 8);
+            defineOct(xOct, 490, 520, 520, 460, 460, 505, 505, 490);
+            defineOct(yOct, 182, 182, 230, 230, 214, 214, 198, 198);
+            g.fillPolygon(xOct, yOct, 8);
+            //Recolour
+            g.setColor(gameYellow);
+            //G
+            defineOct(xOct, 590, 650, 650, 605, 605, 650, 650, 590);
+            defineOct(yOct, 150, 150, 166, 166, 214, 214, 230, 230);
+            g.fillPolygon(xOct, yOct, 8);
+            defineHex(xHex, 620, 650, 650, 635, 635, 620);
+            defineHex(yHex, 182, 182, 214, 214, 198, 198);
+            g.fillPolygon(xHex, yHex, 6);
+            //A
+            defineOct(xOct, 670, 730, 730, 715, 715, 685, 685, 670);
+            defineOct(yOct, 150, 150, 182, 182, 166, 166, 182, 182);
+            g.fillPolygon(xOct, yOct, 8);
+            defineOct(xOct, 670, 730, 730, 715, 715, 685, 685, 670);
+            defineOct(yOct, 182, 182, 230, 230, 198, 198, 230, 230);
+            g.fillPolygon(xOct, yOct, 8);
+            //M
+            defineOct(xOct, 750, 765, 780, 780, 765, 765, 750, 750);
+            defineOct(yOct, 150, 150, 176, 198, 182, 230, 230, 150);
+            g.fillPolygon(xOct, yOct, 8);
+            defineOct(xOct, 780, 795, 810, 810, 795, 795, 780, 780);
+            defineOct(yOct, 176, 150, 150, 230, 230, 182, 198, 176);
+            g.fillPolygon(xOct, yOct, 8);
+            //E
+            defineOct(xOct, 830, 880, 880, 845, 845, 880, 880, 830);
+            defineOct(yOct, 150, 150, 166, 166, 214, 214, 230, 230);
+            g.fillPolygon(xOct, yOct, 8);
+            defineQuad(xQuad, 845, 865, 865, 845);
+            defineQuad(yQuad, 182, 182, 198, 198);
+            g.fillPolygon(xQuad, yQuad, 4);
             
+                g.drawImage(restartButton, 230, 525, null);
+                g.drawImage(resumeButton, 460, 525, null);
+                g.drawImage(exitButton, 690, 525, null);
         }
         
         
@@ -373,7 +455,36 @@ public class SummativeGame extends JComponent implements ActionListener {
                     System.out.println(user.getXPosition());
                 }
             //Game movement up/down, z to select
-            } else{
+            } else if(mapCreated && area == -2){
+                if(e.getKeyChar() == 'a' && user.getXPosition() >= 220){
+                    user.adjustXPos(-9);
+                }
+                if(e.getKeyChar() == 'd' && user.getXPosition() <= 890){
+                    user.adjustXPos(+9);
+                }
+                //Make map
+                if(e.getKeyChar() == 'z' && user.getXPosition() >= 230 && user.getXPosition() <= 425){
+                    mapCreated = true;
+                    user.setPosition(555, 450);
+                    heldPlayerLocation[0] = -1;
+                    heldPlayerLocation[1] = -1;
+                    MapGen.generateMap();
+                    heldPlayerLocation = MapGen.startingRoom;
+                }
+                //Make premade map
+                if(e.getKeyChar() == 'z' && user.getXPosition() >= 460 && user.getXPosition() <= 655){
+                    
+                }
+                //Close on exit
+                if(e.getKeyChar() == 'z' && user.getXPosition() >= 690 && user.getXPosition() <= 885){
+                    System.exit(0);
+                }
+                //Bugtest location data
+                if(e.getKeyChar() == 'f'){
+                    System.out.println(user.getXPosition());
+                }
+            }
+            else{
                 if(e.getKeyChar() == 'a'){
                     user.adjustXPos(-3);
                 }
@@ -385,6 +496,15 @@ public class SummativeGame extends JComponent implements ActionListener {
                 }
                 if(e.getKeyChar() == 's'){
                     user.adjustYPos(+3);
+                }
+                if(e.getKeyChar() == 'z'){
+                    
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    heldPlayerLocation[0] = user.getRoomX();
+                    heldPlayerLocation[1] = user.getRoomY();
+                    user.setPosition(560, 575);
+                    area = -2;
                 }
             }
         }
