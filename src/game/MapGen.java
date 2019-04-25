@@ -73,9 +73,9 @@ public class MapGen {
                             }
                             System.out.println("");
                     }
-                    for(int i = 0; i < map.length; i++){
-                        for(int j = 0; j < map.length; j++){
-                            if(map[i][j].getRoomType() == -1){
+                    for (Room[] map1 : map) {
+                        for (int j = 0; j < map.length; j++) {
+                            if (map1[j].getRoomType() == -1) {
                                 doesMapExist=false;
                             }
                         }
@@ -245,10 +245,10 @@ public class MapGen {
 		// If passes top threshhold, adjust X position left, but ensure the posX doesn't go out of bounds
 		if (posY - 1 < 0) {
 			relativeY = 7;
-			if (posX - verticalEdge < 0) {
-				relativeX = posX - verticalEdge + 8;
+			if (posX - horizontalEdge < 0) {
+				relativeX = posX - horizontalEdge + 8;
 			} else {
-				relativeX = posX - verticalEdge;
+				relativeX = posX - horizontalEdge;
 			}
 		} else {
 			// If doesn't pass top threshhold, X position remains the same
@@ -270,10 +270,10 @@ public class MapGen {
 		// If passes right threshhold, adjust Y position downwards, but ensure the posY doesn't go out of bounds
 		if (posX + 1 > 7) {
 			relativeX = 0;
-			if (posY + horizontalEdge > 7) {
-				relativeY = posY + horizontalEdge - 8;
+			if (posY + verticalEdge > 7) {
+				relativeY = posY + verticalEdge - 8;
 			} else {
-				relativeY = posY + horizontalEdge;
+				relativeY = posY + verticalEdge;
 			}
 		} else {
 			// If doesn't pass right threshhold, Y position remains the same
@@ -295,10 +295,10 @@ public class MapGen {
 		// If passes bottom threshhold, adjust X position to the right, but ensure the posX doesn't go out of bounds
 		if (posY + 1 > 7) {
 			relativeY = 0;
-			if (posX + verticalEdge > 7) {
-				relativeX = posX + verticalEdge - 8;
+			if (posX + horizontalEdge > 7) {
+				relativeX = posX + horizontalEdge - 8;
 			} else {
-				relativeX = posX + verticalEdge;
+				relativeX = posX + horizontalEdge;
 			}
 		} else {
 			// If doesn't pass bottom threshhold, X position remains the same
@@ -320,10 +320,10 @@ public class MapGen {
 		// If passes left threshhold, adjust Y position upwards, but ensure the posY doesn't go out of bounds
 		if (posX - 1 < 0) {
 			relativeX = 7;
-			if (posY - horizontalEdge < 0) {
-				relativeY = posY - horizontalEdge + 8;
+			if (posY - verticalEdge < 0) {
+				relativeY = posY - verticalEdge + 8;
 			} else {
-				relativeY = posY - horizontalEdge;
+				relativeY = posY - verticalEdge;
 			}
 		} else {
 			// If doesn't pass left threshhold, Y position remains the same

@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import javax.swing.JComponent;
@@ -67,6 +68,7 @@ public class SummativeGame extends JComponent implements ActionListener {
     public static Color gameBlue = new Color(55, 231, 93);
     public static Color gameYellow = new Color(192, 248, 61);
     public static Color gameDebug = new Color(255, 0, 255);
+    public static Color gameGrey = new Color(128, 170, 158);
     
     //Definitions of Drawing Points
     public static int xTriangle[] = new int[3];
@@ -135,9 +137,7 @@ public class SummativeGame extends JComponent implements ActionListener {
         BufferedImage image = null;
         try{
             image = ImageIO.read(new File(filename));
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        }catch(IOException e){}
         return image;
     }
 
@@ -150,7 +150,14 @@ public class SummativeGame extends JComponent implements ActionListener {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
-        if(area == -1){
+        if(area != -2 && area != -1){
+            //Corners of wall
+            defineHex(xHex, 360, 490, 490, 390, 390, 360);
+            defineHex(yHex, 255, 255, 285, 285, 385, 385);
+            g.fillPolygon(xHex, yHex, 6);
+        }
+        
+        if(!mapCreated){
             //Title Box
             g.setColor(gameGreen);
 
@@ -349,6 +356,7 @@ public class SummativeGame extends JComponent implements ActionListener {
     // The main game loop
     // In here is where all the logic for my game will go
     public void gameLoop() {
+        //Startup menu
         if(!mapCreated){
             if(user.getXPosition() > 885){
                 user.setXPosition(230);
@@ -356,8 +364,31 @@ public class SummativeGame extends JComponent implements ActionListener {
             if(user.getXPosition() < 230){
                 user.setXPosition(885);
             }
-        } else{
+        } 
+        //Ingame accessable menu
+        else if(area == -2){
+            if(user.getXPosition() > 885){
+                user.setXPosition(230);
+            }
+            if(user.getXPosition() < 230){
+                user.setXPosition(885);
+            }
+        }
+        //During game events
+        else{
+            area = MapGen.map[user.getRoomY()][user.getRoomX()].getRoomType();
             
+            //Collision logic
+            //Topleft corner
+                if(user.getXPosition() < 390 && user.getYPosition() < 285){
+                    user.setPosition(390, 285);
+                }
+                if(user.getXPosition() >= 390 && user.getXPosition() <= 490 && user.getYPosition() < 285){
+                    user.setPosition(user.getXPosition(), 285);
+                }
+                if(user.getXPosition() < 390 && user.getYPosition() >= 285 && user.getYPosition() <= 385){
+                    user.setPosition(390, user.getYPosition());
+                }
         }
     }
 
@@ -454,7 +485,7 @@ public class SummativeGame extends JComponent implements ActionListener {
                 if(e.getKeyChar() == 'f'){
                     System.out.println(user.getXPosition());
                 }
-            //Game movement up/down, z to select
+            //Game movement up/down, z to select; This is second menu
             } else if(mapCreated && area == -2){
                 if(e.getKeyChar() == 'a' && user.getXPosition() >= 220){
                     user.adjustXPos(-9);
@@ -468,10 +499,12 @@ public class SummativeGame extends JComponent implements ActionListener {
                     user.setPosition(555, 450);
                     heldPlayerLocation[0] = -1;
                     heldPlayerLocation[1] = -1;
+                    area = -1;
                     MapGen.generateMap();
                     heldPlayerLocation = MapGen.startingRoom;
+                    user.setRoom(heldPlayerLocation[0], heldPlayerLocation[1]);
                 }
-                //Make premade map
+                //Resume game
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 460 && user.getXPosition() <= 655){
                     
                 }
@@ -486,19 +519,23 @@ public class SummativeGame extends JComponent implements ActionListener {
             }
             else{
                 if(e.getKeyChar() == 'a'){
-                    user.adjustXPos(-3);
+                    user.adjustXPos(-7);
                 }
                 if(e.getKeyChar() == 'd'){
-                    user.adjustXPos(+3);
+                    user.adjustXPos(+7);
                 }
                 if(e.getKeyChar() == 'w'){
-                    user.adjustYPos(-3);
+                    user.adjustYPos(-7);
                 }
                 if(e.getKeyChar() == 's'){
-                    user.adjustYPos(+3);
+                    user.adjustYPos(+7);
                 }
                 if(e.getKeyChar() == 'z'){
                     
+                }
+                if(e.getKeyChar() == 'f'){
+                    System.out.println(user.getXPosition());
+                    System.out.println(user.getYPosition());
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     heldPlayerLocation[0] = user.getRoomX();
