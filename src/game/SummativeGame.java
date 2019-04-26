@@ -58,8 +58,11 @@ public class SummativeGame extends JComponent implements ActionListener {
     public static int playerPosX;
     public static int playerPosY;
     
+    public static int savedPlayerPosX;
+    public static int savedPlayerPosY;
+    
     //Sounds
-    public static final MusicLoop musicLoop = new MusicLoop();
+    public static MusicLoop musicLoop = new MusicLoop();
     public static int songId;
     
     //Definitions of Colours
@@ -151,10 +154,36 @@ public class SummativeGame extends JComponent implements ActionListener {
 
         // GAME DRAWING GOES HERE
         if(area != -2 && area != -1){
-            //Corners of wall
+            //Corners of walls
+            g.setColor(gameGrey);
+            
             defineHex(xHex, 360, 490, 490, 390, 390, 360);
             defineHex(yHex, 255, 255, 285, 285, 385, 385);
             g.fillPolygon(xHex, yHex, 6);
+            
+            defineHex(xHex, 750, 620, 620, 720, 720, 750);
+            defineHex(yHex, 255, 255, 285, 285, 385, 385);
+            g.fillPolygon(xHex, yHex, 6);
+            
+            defineHex(xHex, 360, 490, 490, 390, 390, 360);
+            defineHex(yHex, 645, 645, 615, 615, 515, 515);
+            g.fillPolygon(xHex, yHex, 6);
+            
+            defineHex(xHex, 750, 620, 620, 720, 720, 750);
+            defineHex(yHex, 645, 645, 615, 615, 515, 515);
+            g.fillPolygon(xHex, yHex, 6);
+        }
+        //Top wall
+        if(area != -2 && area != -1 && area != 0 && area != 1 && area != 2 && area != 3 && area != 4 && area != 5 && area != 10 && area != 11){
+            defineQuad(xQuad, 490, 620, 620, 490);
+            defineQuad(yQuad, 255, 255, 285, 285);
+            g.fillPolygon(xQuad, yQuad, 4);
+        }
+        //Right wall
+        if(area != -2 && area != -1 && area != 0 && area != 3 && area != 4 && area != 6 && area != 7 && area != 8 && area != 10 && area != 12){
+            defineQuad(xQuad, 720, 750, 750, 720);
+            defineQuad(yQuad, 385, 285, 515, 515);
+            g.fillPolygon(xQuad, yQuad, 4);
         }
         
         if(!mapCreated){
@@ -381,13 +410,43 @@ public class SummativeGame extends JComponent implements ActionListener {
             //Collision logic
             //Topleft corner
                 if(user.getXPosition() < 390 && user.getYPosition() < 285){
-                    user.setPosition(390, 285);
+                    user.setPosition(395, 290);
                 }
                 if(user.getXPosition() >= 390 && user.getXPosition() <= 490 && user.getYPosition() < 285){
-                    user.setPosition(user.getXPosition(), 285);
+                    user.setPosition(user.getXPosition(), 290);
                 }
                 if(user.getXPosition() < 390 && user.getYPosition() >= 285 && user.getYPosition() <= 385){
-                    user.setPosition(390, user.getYPosition());
+                    user.setPosition(395, user.getYPosition());
+                }
+            //Topright corner
+                if(user.getXPosition() > 720 && user.getYPosition() < 285){
+                    user.setPosition(715, 290);
+                }
+                if(user.getXPosition() <= 720 && user.getXPosition() >= 620 && user.getYPosition() < 285){
+                    user.setPosition(user.getXPosition(), 290);
+                }
+                if(user.getXPosition() > 720 && user.getYPosition() >= 285 && user.getYPosition() <= 385){
+                    user.setPosition(715, user.getYPosition());
+                }
+            //Bottomleft corner
+                if(user.getXPosition() < 390 && user.getYPosition() > 615){
+                    user.setPosition(395, 610);
+                }
+                if(user.getXPosition() >= 390 && user.getXPosition() <= 490 && user.getYPosition() > 615){
+                    user.setPosition(user.getXPosition(), 610);
+                }
+                if(user.getXPosition() < 390 && user.getYPosition() <= 615 && user.getYPosition() >= 515){
+                    user.setPosition(395, user.getYPosition());
+                }
+            //Bottomright corner
+                if(user.getXPosition() > 720 && user.getYPosition() > 615){
+                    user.setPosition(715, 610);
+                }
+                if(user.getXPosition() <= 720 && user.getXPosition() >= 620 && user.getYPosition() > 615){
+                    user.setPosition(user.getXPosition(), 610);
+                }
+                if(user.getXPosition() > 720 && user.getYPosition() <= 615 && user.getYPosition() >= 515){
+                    user.setPosition(715, user.getYPosition());
                 }
         }
     }
@@ -459,7 +518,7 @@ public class SummativeGame extends JComponent implements ActionListener {
         // if a key has been pressed down
         @Override
         public void keyPressed(KeyEvent e) {
-            //Menu movement left/right, z to select
+            //Main menu movement left/right, z to select
             if(!mapCreated){
                 if(e.getKeyChar() == 'a' && user.getXPosition() >= 220){
                     user.adjustXPos(-9);
@@ -472,6 +531,8 @@ public class SummativeGame extends JComponent implements ActionListener {
                     mapCreated = true;
                     user.setPosition(555, 450);
                     MapGen.generateMap();
+                    user.setRoom(MapGen.startingRoom[0], MapGen.startingRoom[1]);
+                    area = MapGen.map[MapGen.startingRoom[1]][MapGen.startingRoom[0]].getRoomType();
                 }
                 //Make premade map
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 460 && user.getXPosition() <= 655){
@@ -499,14 +560,16 @@ public class SummativeGame extends JComponent implements ActionListener {
                     user.setPosition(555, 450);
                     heldPlayerLocation[0] = -1;
                     heldPlayerLocation[1] = -1;
-                    area = -1;
                     MapGen.generateMap();
                     heldPlayerLocation = MapGen.startingRoom;
+                    area = MapGen.map[heldPlayerLocation[1]][heldPlayerLocation[0]].getRoomType();
                     user.setRoom(heldPlayerLocation[0], heldPlayerLocation[1]);
                 }
                 //Resume game
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 460 && user.getXPosition() <= 655){
-                    
+                    user.setPosition(savedPlayerPosX, savedPlayerPosY);
+                    area = MapGen.map[heldPlayerLocation[1]][heldPlayerLocation[0]].getRoomType();
+                    user.setRoom(heldPlayerLocation[0], heldPlayerLocation[1]);
                 }
                 //Close on exit
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 690 && user.getXPosition() <= 885){
@@ -540,6 +603,9 @@ public class SummativeGame extends JComponent implements ActionListener {
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     heldPlayerLocation[0] = user.getRoomX();
                     heldPlayerLocation[1] = user.getRoomY();
+                    savedPlayerPosX = user.getXPosition();
+                    savedPlayerPosY = user.getYPosition();
+                    
                     user.setPosition(560, 575);
                     area = -2;
                 }

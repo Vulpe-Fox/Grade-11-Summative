@@ -54,7 +54,7 @@ public class Player extends Entity{
         if(itemHeld == 4){
             g.setColor(SummativeGame.gameYellow);
         }
-        g.fillOval(x, y, w, l);
+        g.fillOval(x-(w/2), y-(l/2), w, l);
     }
     
     private void move(){
@@ -92,7 +92,8 @@ public class Player extends Entity{
     }
     
     public void setRoom(int x, int y){
-        
+        roomX = x;
+        roomY = y;
     }
     
     public int getRoomX(){

@@ -90,9 +90,6 @@ public class MapGen {
 		
 		setRooms();
                 
-                SummativeGame.user.setXPosition(557);
-                SummativeGame.user.setYPosition(425);
-                
 		//Print what's in rooms to the console
 		for(int i = 0; i < coordinates.size(); i++) {
 			System.out.println(coordinates.get(i)[0] + ", " + coordinates.get(i)[1]);
