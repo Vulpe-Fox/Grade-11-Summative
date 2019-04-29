@@ -53,6 +53,7 @@ public class SummativeGame extends JComponent implements ActionListener {
     //Definitions of Position Variables
     public static int area = -1;
     public static Integer[] heldPlayerLocation = new Integer[2];
+    public static boolean northSouth;
     
     //(Player)
     public static int playerPosX;
@@ -182,7 +183,36 @@ public class SummativeGame extends JComponent implements ActionListener {
         //Right wall
         if(area != -2 && area != -1 && area != 0 && area != 3 && area != 4 && area != 6 && area != 7 && area != 8 && area != 10 && area != 12){
             defineQuad(xQuad, 720, 750, 750, 720);
-            defineQuad(yQuad, 385, 285, 515, 515);
+            defineQuad(yQuad, 385, 385, 515, 515);
+            g.fillPolygon(xQuad, yQuad, 4);
+        }
+        //Bottom wall
+        if(area != -2 && area != -1 && area != 0 && area != 1 && area != 2 && area != 7 && area != 8 && area != 9 && area != 10 && area != 13){
+            defineQuad(xQuad, 490, 620, 620, 490);
+            defineQuad(yQuad, 615, 615, 645, 645);
+            g.fillPolygon(xQuad, yQuad, 4);
+        }
+        //Left wall
+        if(area != -2 && area != -1 && area != 2 && area != 3 && area != 5 && area != 6 && area != 8 && area != 9 && area != 10 && area != 14){
+            defineQuad(xQuad, 390, 360, 360, 390);
+            defineQuad(yQuad, 385, 385, 515, 515);
+            g.fillPolygon(xQuad, yQuad, 4);
+        }
+        //Roomtype 10 depends on where you enter, seperate north-south/east-west wall logic:
+        if(area == 10 && northSouth){
+            defineQuad(xQuad, 720, 750, 750, 720);
+            defineQuad(yQuad, 385, 385, 515, 515);
+            g.fillPolygon(xQuad, yQuad, 4);
+            defineQuad(xQuad, 390, 360, 360, 390);
+            defineQuad(yQuad, 385, 385, 515, 515);
+            g.fillPolygon(xQuad, yQuad, 4);
+        }
+        if(area == 10 && !northSouth){
+            defineQuad(xQuad, 490, 620, 620, 490);
+            defineQuad(yQuad, 255, 255, 285, 285);
+            g.fillPolygon(xQuad, yQuad, 4);
+            defineQuad(xQuad, 490, 620, 620, 490);
+            defineQuad(yQuad, 615, 615, 645, 645);
             g.fillPolygon(xQuad, yQuad, 4);
         }
         
@@ -448,6 +478,90 @@ public class SummativeGame extends JComponent implements ActionListener {
                 if(user.getXPosition() > 720 && user.getYPosition() <= 615 && user.getYPosition() >= 515){
                     user.setPosition(715, user.getYPosition());
                 }
+            //Top door: closed
+                if(area != -2 && area != -1 && area != 0 && area != 1 && area != 2 && area != 3 && area != 4 && area != 5 && area != 10 && area != 11){
+                    if(user.getYPosition() <= 285)  {
+                        user.setPosition(user.getXPosition(), 290);
+                    }
+                }
+            //Right door: closed
+                if(area != -2 && area != -1 && area != 0 && area != 3 && area != 4 && area != 6 && area != 7 && area != 8 && area != 10 && area != 12){
+                    if(user.getXPosition() >= 720){
+                        user.setPosition(715, user.getYPosition());
+                    }
+                }
+            //Bottom door: closed
+                if(area != -2 && area != -1 && area != 0 && area != 1 && area != 2 && area != 7 && area != 8 && area != 9 && area != 10 && area != 13){
+                    if(user.getYPosition() >= 615){
+                        user.setPosition(user.getXPosition(), 610);
+                    }
+                }
+            //Left door: closed
+                if(area != -2 && area != -1 && area != 2 && area != 3 && area != 5 && area != 6 && area != 8 && area != 9 && area != 10 && area != 14){
+                    if(user.getXPosition() <= 390){
+                        user.setPosition(395, user.getYPosition());
+                    }
+                }
+            //North-south room type 10 collision logic
+                //East-West collision
+                if(area == 10 && northSouth){
+                    if(user.getXPosition() >= 720){
+                        user.setPosition(715, user.getYPosition());
+                    }
+                    if(user.getXPosition() <= 390){
+                        user.setPosition(395, user.getYPosition());
+                    }
+                }
+                //North-South collision
+                if(area == 10 && !northSouth){
+                    if(user.getYPosition() <= 285)  {
+                        user.setPosition(user.getXPosition(), 290);
+                    }
+                    if(user.getYPosition() >= 615){
+                        user.setPosition(user.getXPosition(), 610);
+                    }
+                }
+                
+                //Travel between rooms (Player can't get a certain distance without collision normally, so this logic will always work)
+                //Left
+                if(user.getXPosition() <= 360){
+                    user.setPosition(715, user.getYPosition());
+                    if(user.getRoomY() > 0){
+                        user.setRoom(user.getRoomX()-1, user.getRoomY());
+                    } else{
+                        user.setRoom(7, user.getRoomY());
+                    }
+                }
+                //Right
+                if(user.getXPosition() >= 750){
+                    user.setPosition(395, user.getYPosition());
+                    if(user.getRoomY() < 7){
+                        user.setRoom(user.getRoomX()+1, user.getRoomY());
+                    } else{
+                        user.setRoom(0, user.getRoomY());
+                    }
+                }
+                //Top
+                if(user.getYPosition() <= 255){
+                    user.setPosition(user.getXPosition(), 610);
+                    if(user.getRoomY() > 0){
+                        user.setRoom(user.getRoomX(), user.getRoomY()-1);
+                    } else{
+                        user.setRoom(user.getRoomX(), 7);
+                    }
+                }
+                //Bottom
+                if(user.getYPosition() >= 645){
+                    user.setPosition(user.getXPosition(), 290);
+                    if(user.getRoomY() < 7){
+                        user.setRoom(user.getRoomX(), user.getRoomY()+1);
+                    } else{
+                        user.setRoom(user.getRoomX(), 0);
+                    }
+                }
+                
+                //Update room
+                area = MapGen.map[user.getRoomY()][user.getRoomX()].getRoomType();
         }
     }
 

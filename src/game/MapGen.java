@@ -87,6 +87,8 @@ public class MapGen {
                 }
 		System.out.println("Vertical edge shift: " + verticalEdge);
 		System.out.println("Horizontal edge shift: " + horizontalEdge);
+                
+                SummativeGame.northSouth = true;
 		
 		setRooms();
                 
