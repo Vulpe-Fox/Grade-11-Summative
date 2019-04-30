@@ -19,8 +19,8 @@ public class Entity {
     protected static int w;
     
     public Entity(int xPos, int yPos){
-        this.x = xPos;
-        this.y = yPos;
+        Entity.x = xPos;
+        Entity.y = yPos;
     }
     
     public int getXPos(){

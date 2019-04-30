@@ -15,12 +15,14 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import javax.imageio.ImageIO;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 import objects.Player;
+import objects.orbs.GreenOrb;
 
 public class SummativeGame extends JComponent implements ActionListener {
 
@@ -49,6 +51,11 @@ public class SummativeGame extends JComponent implements ActionListener {
     // timer used to run the game loop
     // this is what keeps our time running smoothly :)
     Timer gameTimer;
+    
+    //Randomizer
+    public static Random random = new Random();
+    public static int randomRoomX;
+    public static int randomRoomY;
     
     //Definitions of Position Variables
     public static int area = -1;
@@ -89,6 +96,10 @@ public class SummativeGame extends JComponent implements ActionListener {
     
     //Definitions of Game Objects
     public static Player user;
+    public static GreenOrb greenOrb;
+    public static GreenOrb redOrb;
+    public static GreenOrb blueOrb;
+    public static GreenOrb yellowOrb;
     
     public static boolean mapCreated = false;
     
@@ -387,6 +398,12 @@ public class SummativeGame extends JComponent implements ActionListener {
         }
         catch(Exception e){}
         
+        //Draw orb
+        try{
+            
+        }
+        catch(Exception e){}
+        
         // GAME DRAWING ENDS HERE
     }
 
@@ -526,38 +543,95 @@ public class SummativeGame extends JComponent implements ActionListener {
                 //Left
                 if(user.getXPosition() <= 360){
                     user.setPosition(715, user.getYPosition());
-                    if(user.getRoomY() > 0){
+                    if(user.getRoomY() >= 0){
                         user.setRoom(user.getRoomX()-1, user.getRoomY());
                     } else{
-                        user.setRoom(7, user.getRoomY());
+                        if(user.getRoomY()-MapGen.verticalEdge < 0){
+                            user.setRoom(7, user.getRoomY()+8-MapGen.verticalEdge);
+                        } else {
+                            user.setRoom(7, user.getRoomY()-MapGen.verticalEdge);
+                        }
                     }
+                    northSouth = false;
                 }
                 //Right
                 if(user.getXPosition() >= 750){
                     user.setPosition(395, user.getYPosition());
-                    if(user.getRoomY() < 7){
+                    if(user.getRoomY() <= 7){
                         user.setRoom(user.getRoomX()+1, user.getRoomY());
                     } else{
-                        user.setRoom(0, user.getRoomY());
+                        if(user.getRoomY()+MapGen.verticalEdge > 7){
+                            user.setRoom(0, user.getRoomY()-8+MapGen.verticalEdge);
+                        } else {
+                            user.setRoom(0, user.getRoomY()+MapGen.verticalEdge);
+                        }
                     }
+                    northSouth = false;
                 }
                 //Top
                 if(user.getYPosition() <= 255){
                     user.setPosition(user.getXPosition(), 610);
-                    if(user.getRoomY() > 0){
+                    if(user.getRoomY() >= 0){
                         user.setRoom(user.getRoomX(), user.getRoomY()-1);
                     } else{
-                        user.setRoom(user.getRoomX(), 7);
+                        if(user.getRoomY()-MapGen.horizontalEdge < 0){
+                            user.setRoom(user.getRoomX()+8-MapGen.horizontalEdge, 7);
+                        } else {
+                            user.setRoom(user.getRoomX()-MapGen.horizontalEdge, 7);
+                        }
                     }
+                    northSouth = true;
                 }
                 //Bottom
                 if(user.getYPosition() >= 645){
                     user.setPosition(user.getXPosition(), 290);
-                    if(user.getRoomY() < 7){
+                    if(user.getRoomY() <= 7){
                         user.setRoom(user.getRoomX(), user.getRoomY()+1);
                     } else{
-                        user.setRoom(user.getRoomX(), 0);
+                        if(user.getRoomY()+MapGen.horizontalEdge > 7){
+                            user.setRoom(user.getRoomX()-8+MapGen.horizontalEdge, 0);
+                        } else {
+                            user.setRoom(user.getRoomX()+MapGen.horizontalEdge, 0);
+                        }
                     }
+                    northSouth = true;
+                }
+                //Fix for a bug when crosses two thresholds in one move
+                if(user.getRoomX() > 7){
+                    if(user.getRoomY()+MapGen.verticalEdge > 7){
+                        user.setRoom(0, user.getRoomY()-8+MapGen.verticalEdge);
+                    } else {
+                        user.setRoom(0, user.getRoomY()+MapGen.verticalEdge);
+                    }
+                }
+                if(user.getRoomY() > 7){
+                    if(user.getRoomY()+MapGen.horizontalEdge > 7){
+                        user.setRoom(user.getRoomX()-8+MapGen.horizontalEdge, 0);
+                    } else {
+                        user.setRoom(user.getRoomX()+MapGen.horizontalEdge, 0);
+                    }
+                }
+                if(user.getRoomX() < 0){
+                    if(user.getRoomY()-MapGen.verticalEdge < 0){
+                        user.setRoom(7, user.getRoomY()+8-MapGen.verticalEdge);
+                    } else {
+                        user.setRoom(7, user.getRoomY()-MapGen.verticalEdge);
+                    }
+                }
+                if(user.getRoomY() < 0){
+                    if(user.getRoomY()-MapGen.horizontalEdge < 0){
+                        user.setRoom(user.getRoomX()+8-MapGen.horizontalEdge, 7);
+                    } else {
+                        user.setRoom(user.getRoomX()-MapGen.horizontalEdge, 7);
+                    }
+                }
+                
+                //Check if Trick Room then randomize which room player is in
+                if(user.getRoomX() == MapGen.coordinates.get(8)[0] && user.getRoomY() == MapGen.coordinates.get(8)[1]){
+                    randomRoomX = random.nextInt(8);
+                    randomRoomY = random.nextInt(8);
+                    user.setRoom(randomRoomX, randomRoomY);
+                    System.out.println("You have entered the trick room and have been moved to coordinates: " + randomRoomX + ", " + randomRoomY);
                 }
                 
                 //Update room
