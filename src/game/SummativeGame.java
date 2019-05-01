@@ -16,13 +16,17 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 import objects.Player;
+import objects.orbs.BlueOrb;
 import objects.orbs.GreenOrb;
+import objects.orbs.RedOrb;
+import objects.orbs.YellowOrb;
 
 public class SummativeGame extends JComponent implements ActionListener {
 
@@ -30,7 +34,13 @@ public class SummativeGame extends JComponent implements ActionListener {
      *
      */
     private static final long serialVersionUID = 790622003833586344L;
+    
+    //Bugfix
+    public static Scanner bugfixConsoleInput = new Scanner(System.in);
+    public static int bugfixX;
+    public static int bugfixY;
 
+    //Screen size
     static final double xScreen = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     static final double yScreen = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     
@@ -76,8 +86,8 @@ public class SummativeGame extends JComponent implements ActionListener {
     //Definitions of Colours
     public static Color gameGreen = new Color(151, 220, 51);
     public static Color gameRed = new Color(190, 33, 33);
-    public static Color gameBlue = new Color(55, 231, 93);
-    public static Color gameYellow = new Color(192, 248, 61);
+    public static Color gameBlue = new Color(55, 231, 133);
+    public static Color gameYellow = new Color(192, 238, 61);
     public static Color gameDebug = new Color(255, 0, 255);
     public static Color gameGrey = new Color(128, 170, 158);
     
@@ -97,9 +107,9 @@ public class SummativeGame extends JComponent implements ActionListener {
     //Definitions of Game Objects
     public static Player user;
     public static GreenOrb greenOrb;
-    public static GreenOrb redOrb;
-    public static GreenOrb blueOrb;
-    public static GreenOrb yellowOrb;
+    public static RedOrb redOrb;
+    public static BlueOrb blueOrb;
+    public static YellowOrb yellowOrb;
     
     public static boolean mapCreated = false;
     
@@ -399,10 +409,20 @@ public class SummativeGame extends JComponent implements ActionListener {
         catch(Exception e){}
         
         //Draw orb
-        try{
-            
+        if(mapCreated){
+            if(SummativeGame.user.getRoomX() == GreenOrb.getOrbRoomX() && SummativeGame.user.getRoomY() == GreenOrb.getOrbRoomY()){
+                greenOrb.draw(g);
+            }
+            if(SummativeGame.user.getRoomX() == RedOrb.getOrbRoomX() && SummativeGame.user.getRoomY() == RedOrb.getOrbRoomY()){
+                redOrb.draw(g);
+            }
+            if(SummativeGame.user.getRoomX() == BlueOrb.getOrbRoomX() && SummativeGame.user.getRoomY() == BlueOrb.getOrbRoomY()){
+                blueOrb.draw(g);
+            }
+            if(SummativeGame.user.getRoomX() == YellowOrb.getOrbRoomX() && SummativeGame.user.getRoomY() == YellowOrb.getOrbRoomY()){
+                yellowOrb.draw(g);
+            }
         }
-        catch(Exception e){}
         
         // GAME DRAWING ENDS HERE
     }
@@ -597,35 +617,36 @@ public class SummativeGame extends JComponent implements ActionListener {
                     northSouth = true;
                 }
                 //Fix for a bug when crosses two thresholds in one move
-                if(user.getRoomX() > 7){
-                    if(user.getRoomY()+MapGen.verticalEdge > 7){
-                        user.setRoom(0, user.getRoomY()-8+MapGen.verticalEdge);
-                    } else {
-                        user.setRoom(0, user.getRoomY()+MapGen.verticalEdge);
+                while(user.getRoomX() < 0 || user.getRoomX() > 7 || user.getRoomY() < 0 || user.getRoomY() > 7){
+                    if(user.getRoomX() > 7){
+                        if(user.getRoomY()+MapGen.verticalEdge >= 7){
+                            user.setRoom(0, user.getRoomY()-8+MapGen.verticalEdge);
+                        } else {
+                            user.setRoom(0, user.getRoomY()+MapGen.verticalEdge);
+                        }
+                    }
+                    if(user.getRoomY() > 7){
+                        if(user.getRoomY()+MapGen.horizontalEdge >= 7){
+                            user.setRoom(user.getRoomX()-8+MapGen.horizontalEdge, 0);
+                        } else {
+                            user.setRoom(user.getRoomX()+MapGen.horizontalEdge, 0);
+                        }
+                    }
+                    if(user.getRoomX() < 0){
+                        if(user.getRoomY()-MapGen.verticalEdge <= 0){
+                            user.setRoom(7, user.getRoomY()+8-MapGen.verticalEdge);
+                        } else {
+                            user.setRoom(7, user.getRoomY()-MapGen.verticalEdge);
+                        }
+                    }
+                    if(user.getRoomY() < 0){
+                        if(user.getRoomY()-MapGen.horizontalEdge <= 0){
+                            user.setRoom(user.getRoomX()+8-MapGen.horizontalEdge, 7);
+                        } else {
+                            user.setRoom(user.getRoomX()-MapGen.horizontalEdge, 7);
+                        }
                     }
                 }
-                if(user.getRoomY() > 7){
-                    if(user.getRoomY()+MapGen.horizontalEdge > 7){
-                        user.setRoom(user.getRoomX()-8+MapGen.horizontalEdge, 0);
-                    } else {
-                        user.setRoom(user.getRoomX()+MapGen.horizontalEdge, 0);
-                    }
-                }
-                if(user.getRoomX() < 0){
-                    if(user.getRoomY()-MapGen.verticalEdge < 0){
-                        user.setRoom(7, user.getRoomY()+8-MapGen.verticalEdge);
-                    } else {
-                        user.setRoom(7, user.getRoomY()-MapGen.verticalEdge);
-                    }
-                }
-                if(user.getRoomY() < 0){
-                    if(user.getRoomY()-MapGen.horizontalEdge < 0){
-                        user.setRoom(user.getRoomX()+8-MapGen.horizontalEdge, 7);
-                    } else {
-                        user.setRoom(user.getRoomX()-MapGen.horizontalEdge, 7);
-                    }
-                }
-                
                 //Check if Trick Room then randomize which room player is in
                 if(user.getRoomX() == MapGen.coordinates.get(8)[0] && user.getRoomY() == MapGen.coordinates.get(8)[1]){
                     randomRoomX = random.nextInt(8);
@@ -635,7 +656,11 @@ public class SummativeGame extends JComponent implements ActionListener {
                 }
                 
                 //Update room
-                area = MapGen.map[user.getRoomY()][user.getRoomX()].getRoomType();
+                try{
+                    area = MapGen.map[user.getRoomY()][user.getRoomX()].getRoomType();
+                }catch(ArrayIndexOutOfBoundsException e){
+                    System.out.println(user.getRoomX() + ", " + user.getRoomY());
+                }
         }
     }
 
@@ -787,6 +812,15 @@ public class SummativeGame extends JComponent implements ActionListener {
                 if(e.getKeyChar() == 'f'){
                     System.out.println(user.getXPosition());
                     System.out.println(user.getYPosition());
+                    
+                    System.out.println(user.getRoomX() + ", " + user.getRoomY());
+                    System.out.println(greenOrb.getOrbRoomX() + ", " + greenOrb.getOrbRoomY());
+                }
+                if(e.getKeyChar() == 'i'){
+                    bugfixX = Integer.parseInt(bugfixConsoleInput.nextLine());
+                    bugfixY = Integer.parseInt(bugfixConsoleInput.nextLine());
+                    user.setRoom(bugfixX, bugfixY);
+                    area = MapGen.map[bugfixY][bugfixX].getRoomType();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     heldPlayerLocation[0] = user.getRoomX();

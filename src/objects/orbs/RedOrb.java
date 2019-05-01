@@ -5,7 +5,6 @@
  */
 package objects.orbs;
 
-import game.MapGen;
 import game.SummativeGame;
 import java.awt.Graphics;
 
@@ -17,11 +16,17 @@ public class RedOrb extends Orb{
     
     public static int roomX;
     public static int roomY;
+    public static int x;
+    public static int y;
+    public static int l;
+    public static int w;
     
     public RedOrb(int x, int y, int orbRoomX, int orbRoomY){
         super(x, y, orbRoomX, orbRoomY);
         RedOrb.roomX = orbRoomX;
         RedOrb.roomY = orbRoomY;
+        RedOrb.x = x;
+        RedOrb.y = y;
         
         //l = image length;
         //w = image width;
@@ -31,8 +36,14 @@ public class RedOrb extends Orb{
     
     @Override
     public void draw(Graphics g){
-        if(SummativeGame.user.getRoomX() == roomX && SummativeGame.user.getRoomY() == roomY){
-            g.fillOval(x-(w/2), y-(l/2), w, l);
-        }
+        g.setColor(SummativeGame.gameRed);
+        g.fillOval(x-(w/2), y-(l/2), w, l);
+    }
+    
+    public static int getOrbRoomX(){
+        return roomX;
+    }
+    public static int getOrbRoomY(){
+        return roomY;
     }
 }

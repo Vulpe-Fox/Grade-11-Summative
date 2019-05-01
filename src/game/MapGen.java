@@ -1,14 +1,13 @@
 package game;
 
-import static game.SummativeGame.blueOrb;
-import static game.SummativeGame.greenOrb;
-import static game.SummativeGame.redOrb;
-import static game.SummativeGame.yellowOrb;
 import java.util.ArrayList;
 import java.util.Random;
 
 import objects.Room;
+import objects.orbs.BlueOrb;
 import objects.orbs.GreenOrb;
+import objects.orbs.RedOrb;
+import objects.orbs.YellowOrb;
 
 public class MapGen {
 
@@ -99,9 +98,9 @@ public class MapGen {
                 
                 //Define orbs
                 SummativeGame.greenOrb = new GreenOrb(555, 450, MapGen.coordinates.get(0)[0], MapGen.coordinates.get(0)[1]);
-                SummativeGame.redOrb = new GreenOrb(555, 450, MapGen.coordinates.get(1)[0], MapGen.coordinates.get(1)[1]);
-                SummativeGame.blueOrb = new GreenOrb(555, 450, MapGen.coordinates.get(2)[0], MapGen.coordinates.get(2)[1]);
-                SummativeGame.yellowOrb = new GreenOrb(555, 450, MapGen.coordinates.get(3)[0], MapGen.coordinates.get(3)[1]);
+                SummativeGame.redOrb = new RedOrb(555, 450, MapGen.coordinates.get(1)[0], MapGen.coordinates.get(1)[1]);
+                SummativeGame.blueOrb = new BlueOrb(555, 450, MapGen.coordinates.get(2)[0], MapGen.coordinates.get(2)[1]);
+                SummativeGame.yellowOrb = new YellowOrb(555, 450, MapGen.coordinates.get(3)[0], MapGen.coordinates.get(3)[1]);
                 
 		//Print what's in rooms to the console
 		for(int i = 0; i < coordinates.size(); i++) {

@@ -16,17 +16,16 @@ public class Orb extends Entity{
     protected static int orbRoomX;
     protected static int orbRoomY;
     
-    
     public Orb(int x, int y, int orbRoomX, int orbRoomY) {
         super(x, y);
         Orb.orbRoomX = orbRoomX;
         Orb.orbRoomY = orbRoomY;
     }
     
-    public int getOrbRoomX(){
+    public static int getOrbRoomX(){
         return orbRoomX;
     }
-    public int getOrbRoomY(){
+    public static int getOrbRoomY(){
         return orbRoomY;
     }
     
