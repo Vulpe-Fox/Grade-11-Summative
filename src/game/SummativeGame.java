@@ -27,6 +27,10 @@ import objects.orbs.BlueOrb;
 import objects.orbs.GreenOrb;
 import objects.orbs.RedOrb;
 import objects.orbs.YellowOrb;
+import objects.receptacles.BlueReceptacle;
+import objects.receptacles.GreenReceptacle;
+import objects.receptacles.RedReceptacle;
+import objects.receptacles.YellowReceptacle;
 
 public class SummativeGame extends JComponent implements ActionListener {
 
@@ -110,6 +114,10 @@ public class SummativeGame extends JComponent implements ActionListener {
     public static RedOrb redOrb;
     public static BlueOrb blueOrb;
     public static YellowOrb yellowOrb;
+    public static GreenReceptacle greenReceptacle;
+    public static RedReceptacle redReceptacle;
+    public static BlueReceptacle blueReceptacle;
+    public static YellowReceptacle yellowReceptacle;
     
     public static boolean mapCreated = false;
     
@@ -422,6 +430,18 @@ public class SummativeGame extends JComponent implements ActionListener {
             if(SummativeGame.user.getRoomX() == YellowOrb.getOrbRoomX() && SummativeGame.user.getRoomY() == YellowOrb.getOrbRoomY()){
                 yellowOrb.draw(g);
             }
+            if(SummativeGame.user.getRoomX() == GreenReceptacle.getReceptacleRoomX() && SummativeGame.user.getRoomY() == GreenReceptacle.getReceptacleRoomY()){
+                greenReceptacle.draw(g);
+            }
+            if(SummativeGame.user.getRoomX() == RedReceptacle.getReceptacleRoomX() && SummativeGame.user.getRoomY() == RedReceptacle.getReceptacleRoomY()){
+                redReceptacle.draw(g);
+            }
+            if(SummativeGame.user.getRoomX() == BlueReceptacle.getReceptacleRoomX() && SummativeGame.user.getRoomY() == BlueReceptacle.getReceptacleRoomY()){
+                blueReceptacle.draw(g);
+            }
+            if(SummativeGame.user.getRoomX() == YellowReceptacle.getReceptacleRoomX() && SummativeGame.user.getRoomY() == YellowReceptacle.getReceptacleRoomY()){
+                yellowReceptacle.draw(g);
+            }
         }
         
         // GAME DRAWING ENDS HERE
@@ -661,6 +681,23 @@ public class SummativeGame extends JComponent implements ActionListener {
                 }catch(ArrayIndexOutOfBoundsException e){
                     System.out.println(user.getRoomX() + ", " + user.getRoomY());
                 }
+            //Win condition
+            if(GreenReceptacle.getReceptacleRoomX() == GreenOrb.getOrbRoomX() && GreenReceptacle.x == GreenOrb.x &&
+                GreenReceptacle.getReceptacleRoomY() == GreenOrb.getOrbRoomY() && GreenReceptacle.y == GreenOrb.y){
+                GreenReceptacle.setReceptacleRoom(-1, -1);
+            }
+            if(RedReceptacle.getReceptacleRoomX() == RedOrb.getOrbRoomX() && RedReceptacle.x == RedOrb.x &&
+                RedReceptacle.getReceptacleRoomY() == RedOrb.getOrbRoomY() && RedReceptacle.y == RedOrb.y){
+                RedReceptacle.setReceptacleRoom(-1, -1);
+            }
+            if(BlueReceptacle.getReceptacleRoomX() == BlueOrb.getOrbRoomX() && BlueReceptacle.x == BlueOrb.x &&
+                BlueReceptacle.getReceptacleRoomY() == BlueOrb.getOrbRoomY() && BlueReceptacle.y == BlueOrb.y){
+                BlueReceptacle.setReceptacleRoom(-1, -1);
+            }
+            if(YellowReceptacle.getReceptacleRoomX() == YellowOrb.getOrbRoomX() && YellowReceptacle.x == YellowOrb.x &&
+                YellowReceptacle.getReceptacleRoomY() == YellowOrb.getOrbRoomY() && YellowReceptacle.y == YellowOrb.y){
+                YellowReceptacle.setReceptacleRoom(-1, -1);
+            }
         }
     }
 
@@ -807,14 +844,59 @@ public class SummativeGame extends JComponent implements ActionListener {
                     user.adjustYPos(+7);
                 }
                 if(e.getKeyChar() == 'z'){
-                    
+                    if(user.getHeldOrb() != 0){
+                        if(user.getHeldOrb() == 1){
+                            GreenOrb.setOrbRoom(user.getRoomX(), user.getRoomY());
+                            GreenOrb.setOrbPosition(user.getXPosition(), user.getYPosition());
+                            user.setHeldOrb(0);
+                        }
+                        if(user.getHeldOrb() == 2){
+                            RedOrb.setOrbRoom(user.getRoomX(), user.getRoomY());
+                            RedOrb.setOrbPosition(user.getXPosition(), user.getYPosition());
+                            user.setHeldOrb(0);
+                        }
+                        if(user.getHeldOrb() == 3){
+                            BlueOrb.setOrbRoom(user.getRoomX(), user.getRoomY());
+                            BlueOrb.setOrbPosition(user.getXPosition(), user.getYPosition());
+                            user.setHeldOrb(0);
+                        }
+                        if(user.getHeldOrb() == 4){
+                            YellowOrb.setOrbRoom(user.getRoomX(), user.getRoomY());
+                            YellowOrb.setOrbPosition(user.getXPosition(), user.getYPosition());
+                            user.setHeldOrb(0);
+                        }
+                    } else{
+                        if(user.getXPosition() >= GreenOrb.x-GreenOrb.l && user.getYPosition() >= GreenOrb.y-GreenOrb.w &&
+                            user.getXPosition() <= GreenOrb.x+GreenOrb.l && user.getYPosition() <= GreenOrb.y+GreenOrb.w &&
+                            user.getHeldOrb() == 0 && user.getRoomX() == GreenOrb.getOrbRoomX() && user.getRoomY() == GreenOrb.getOrbRoomY()){
+                                user.setHeldOrb(1);
+                                GreenOrb.setOrbRoom(-1, -1);
+                        }
+                        if(user.getXPosition() >= RedOrb.x-RedOrb.l && user.getYPosition() >= RedOrb.y-RedOrb.w &&
+                            user.getXPosition() <= RedOrb.x+RedOrb.l && user.getYPosition() <= RedOrb.y+RedOrb.w && 
+                            user.getHeldOrb() == 0 && user.getRoomX() == RedOrb.getOrbRoomX() && user.getRoomY() == RedOrb.getOrbRoomY()){
+                                user.setHeldOrb(2);
+                                RedOrb.setOrbRoom(-1, -1);
+                        }
+                        if(user.getXPosition() >= BlueOrb.x-BlueOrb.l && user.getYPosition() >= BlueOrb.y-BlueOrb.w &&
+                            user.getXPosition() <= BlueOrb.x+BlueOrb.l && user.getYPosition() <= BlueOrb.y+BlueOrb.w &&
+                            user.getHeldOrb() == 0 && user.getRoomX() == BlueOrb.getOrbRoomX() && user.getRoomY() == BlueOrb.getOrbRoomY()){
+                                user.setHeldOrb(3);
+                                BlueOrb.setOrbRoom(-1, -1);
+                        }
+                        if(user.getXPosition() >= YellowOrb.x-YellowOrb.l && user.getYPosition() >= YellowOrb.y-YellowOrb.w &&
+                            user.getXPosition() <= YellowOrb.x+YellowOrb.l && user.getYPosition() <= YellowOrb.y+YellowOrb.w &&
+                            user.getHeldOrb() == 0 && user.getRoomX() == YellowOrb.getOrbRoomX() && user.getRoomY() == YellowOrb.getOrbRoomY()){
+                                user.setHeldOrb(4);
+                                YellowOrb.setOrbRoom(-1, -1);
+                        }
+                    }
                 }
                 if(e.getKeyChar() == 'f'){
                     System.out.println(user.getXPosition());
                     System.out.println(user.getYPosition());
                     
                     System.out.println(user.getRoomX() + ", " + user.getRoomY());
-                    System.out.println(greenOrb.getOrbRoomX() + ", " + greenOrb.getOrbRoomY());
                 }
                 if(e.getKeyChar() == 'i'){
                     bugfixX = Integer.parseInt(bugfixConsoleInput.nextLine());
@@ -848,6 +930,9 @@ public class SummativeGame extends JComponent implements ActionListener {
             }
             if(e.getKeyChar() == 's'){
                 user.adjustYPos(0);
+            }
+            if(e.getKeyChar() == 'z'){
+                
             }
         }
     }
