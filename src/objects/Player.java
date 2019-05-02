@@ -104,4 +104,11 @@ public class Player extends Entity{
         return roomY;
     }
     
+    public void setHeldOrb(int i){
+        itemHeld = i;
+    }
+    
+    public int getHeldOrb(){
+        return itemHeld;
+    }
 }

@@ -46,4 +46,12 @@ public class BlueOrb extends Orb{
     public static int getOrbRoomY(){
         return roomY;
     }
+    public static void setOrbRoom(int x, int y){
+        roomX = x;
+        roomY = y;
+    }
+    public static void setOrbPosition(int xPos, int yPos){
+        x = xPos;
+        y = yPos;
+    }
 }

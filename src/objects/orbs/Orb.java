@@ -28,9 +28,4 @@ public class Orb extends Entity{
     public static int getOrbRoomY(){
         return orbRoomY;
     }
-    
-    public void setRoom(int x, int y){
-        orbRoomX = x;
-        orbRoomY = y;
-    }
 }

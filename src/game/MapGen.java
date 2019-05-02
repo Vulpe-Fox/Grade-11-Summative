@@ -8,6 +8,10 @@ import objects.orbs.BlueOrb;
 import objects.orbs.GreenOrb;
 import objects.orbs.RedOrb;
 import objects.orbs.YellowOrb;
+import objects.receptacles.BlueReceptacle;
+import objects.receptacles.GreenReceptacle;
+import objects.receptacles.RedReceptacle;
+import objects.receptacles.YellowReceptacle;
 
 public class MapGen {
 
@@ -101,6 +105,12 @@ public class MapGen {
                 SummativeGame.redOrb = new RedOrb(555, 450, MapGen.coordinates.get(1)[0], MapGen.coordinates.get(1)[1]);
                 SummativeGame.blueOrb = new BlueOrb(555, 450, MapGen.coordinates.get(2)[0], MapGen.coordinates.get(2)[1]);
                 SummativeGame.yellowOrb = new YellowOrb(555, 450, MapGen.coordinates.get(3)[0], MapGen.coordinates.get(3)[1]);
+                SummativeGame.greenReceptacle = new GreenReceptacle(555, 450, MapGen.coordinates.get(4)[0], MapGen.coordinates.get(4)[1]);
+                SummativeGame.redReceptacle = new RedReceptacle(555, 450, MapGen.coordinates.get(5)[0], MapGen.coordinates.get(5)[1]);
+                SummativeGame.blueReceptacle = new BlueReceptacle(555, 450, MapGen.coordinates.get(6)[0], MapGen.coordinates.get(6)[1]);
+                SummativeGame.yellowReceptacle = new YellowReceptacle(555, 450, MapGen.coordinates.get(7)[0], MapGen.coordinates.get(7)[1]);
+                
+                //Define recepticles
                 
 		//Print what's in rooms to the console
 		for(int i = 0; i < coordinates.size(); i++) {

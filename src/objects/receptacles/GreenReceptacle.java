@@ -3,16 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package objects.orbs;
+package objects.receptacles;
 
 import game.SummativeGame;
+import java.awt.Color;
 import java.awt.Graphics;
+import objects.Entity;
 
 /**
  *
  * @author carmc9538
  */
-public class RedOrb extends Orb{
+public class GreenReceptacle extends Entity{
     
     public static int roomX;
     public static int roomY;
@@ -21,12 +23,13 @@ public class RedOrb extends Orb{
     public static int l;
     public static int w;
     
-    public RedOrb(int x, int y, int orbRoomX, int orbRoomY){
-        super(x, y, orbRoomX, orbRoomY);
-        RedOrb.roomX = orbRoomX;
-        RedOrb.roomY = orbRoomY;
-        RedOrb.x = x;
-        RedOrb.y = y;
+    public GreenReceptacle(int x, int y, int receptacleRoomX, int receptacleRoomY) {
+        super(x, y);
+        
+        GreenReceptacle.roomX = receptacleRoomX;
+        GreenReceptacle.roomY = receptacleRoomY;
+        GreenReceptacle.x = x;
+        GreenReceptacle.y = y;
         
         //l = image length;
         //w = image width;
@@ -36,22 +39,20 @@ public class RedOrb extends Orb{
     
     @Override
     public void draw(Graphics g){
-        g.setColor(SummativeGame.gameRed);
+        g.setColor(Color.black);
+        g.fillOval(x-(5*w/8), y-(5*l/8), 5*w/4, 5*l/4);
+        g.setColor(SummativeGame.gameGreen);
         g.fillOval(x-(w/2), y-(l/2), w, l);
     }
     
-    public static int getOrbRoomX(){
+    public static int getReceptacleRoomX(){
         return roomX;
     }
-    public static int getOrbRoomY(){
+    public static int getReceptacleRoomY(){
         return roomY;
     }
-    public static void setOrbRoom(int x, int y){
+    public static void setReceptacleRoom(int x, int y){
         roomX = x;
         roomY = y;
-    }
-    public static void setOrbPosition(int xPos, int yPos){
-        x = xPos;
-        y = yPos;
     }
 }
