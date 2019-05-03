@@ -22,10 +22,10 @@ public class MapGen {
 	public static Integer[] blueOrb = new Integer[2];
 	public static Integer[] yellowOrb = new Integer[2];
 	
-	public static Integer[] greenRecepticle = new Integer[2];
-	public static Integer[] redRecepticle = new Integer[2];
-	public static Integer[] blueRecepticle = new Integer[2];
-	public static Integer[] yellowRecepticle = new Integer[2];
+	public static Integer[] greenReceptacle = new Integer[2];
+	public static Integer[] redReceptacle = new Integer[2];
+	public static Integer[] blueReceptacle = new Integer[2];
+	public static Integer[] yellowReceptacle = new Integer[2];
 	
 	public static Integer[] trickRoom = new Integer[2];
 	public static Integer[] startingRoom = new Integer[2];
@@ -100,7 +100,7 @@ public class MapGen {
 		
 		setRooms();
                 
-                //Define orbs
+                //Define orbs/receptacles
                 SummativeGame.greenOrb = new GreenOrb(555, 450, MapGen.coordinates.get(0)[0], MapGen.coordinates.get(0)[1]);
                 SummativeGame.redOrb = new RedOrb(555, 450, MapGen.coordinates.get(1)[0], MapGen.coordinates.get(1)[1]);
                 SummativeGame.blueOrb = new BlueOrb(555, 450, MapGen.coordinates.get(2)[0], MapGen.coordinates.get(2)[1]);
@@ -109,8 +109,6 @@ public class MapGen {
                 SummativeGame.redReceptacle = new RedReceptacle(555, 450, MapGen.coordinates.get(5)[0], MapGen.coordinates.get(5)[1]);
                 SummativeGame.blueReceptacle = new BlueReceptacle(555, 450, MapGen.coordinates.get(6)[0], MapGen.coordinates.get(6)[1]);
                 SummativeGame.yellowReceptacle = new YellowReceptacle(555, 450, MapGen.coordinates.get(7)[0], MapGen.coordinates.get(7)[1]);
-                
-                //Define recepticles
                 
 		//Print what's in rooms to the console
 		for(int i = 0; i < coordinates.size(); i++) {
@@ -170,40 +168,40 @@ public class MapGen {
 		coordinates.add(yellowOrb);
 		coordinatesFound = false;
 		while(!coordinatesFound) {
-			greenRecepticle[0] = random.nextInt(8);
-			greenRecepticle[1] = random.nextInt(8);
-			if(compareCoordinates(greenRecepticle, coordinates)) {
+			greenReceptacle[0] = random.nextInt(8);
+			greenReceptacle[1] = random.nextInt(8);
+			if(compareCoordinates(greenReceptacle, coordinates)) {
 				coordinatesFound = true;
 			}
 		}
-		coordinates.add(greenRecepticle);
+		coordinates.add(greenReceptacle);
 		coordinatesFound = false;
 		while(!coordinatesFound) {
-			redRecepticle[0] = random.nextInt(8);
-			redRecepticle[1] = random.nextInt(8);
-			if(compareCoordinates(redRecepticle, coordinates)) {
+			redReceptacle[0] = random.nextInt(8);
+			redReceptacle[1] = random.nextInt(8);
+			if(compareCoordinates(redReceptacle, coordinates)) {
 				coordinatesFound = true;
 			}
 		}
-		coordinates.add(redRecepticle);
+		coordinates.add(redReceptacle);
 		coordinatesFound = false;
 		while(!coordinatesFound) {
-			blueRecepticle[0] = random.nextInt(8);
-			blueRecepticle[1] = random.nextInt(8);
-			if(compareCoordinates(blueRecepticle, coordinates)) {
+			blueReceptacle[0] = random.nextInt(8);
+			blueReceptacle[1] = random.nextInt(8);
+			if(compareCoordinates(blueReceptacle, coordinates)) {
 				coordinatesFound = true;
 			}
 		}
-		coordinates.add(blueRecepticle);
+		coordinates.add(blueReceptacle);
 		coordinatesFound = false;
 		while(!coordinatesFound) {
-			yellowRecepticle[0] = random.nextInt(8);
-			yellowRecepticle[1] = random.nextInt(8);
-			if(compareCoordinates(yellowRecepticle, coordinates)) {
+			yellowReceptacle[0] = random.nextInt(8);
+			yellowReceptacle[1] = random.nextInt(8);
+			if(compareCoordinates(yellowReceptacle, coordinates)) {
 				coordinatesFound = true;
 			}
 		}
-		coordinates.add(yellowRecepticle);
+		coordinates.add(yellowReceptacle);
 		coordinatesFound = false;
 		while(!coordinatesFound) {
 			trickRoom[0] = random.nextInt(8);
@@ -445,6 +443,155 @@ public class MapGen {
                     System.out.println(undefTop + " " + undefRight + " " + undefBottom + " " + undefLeft);
                     return -1;
 		}
-	}
+        }
+                
+    public static void generatePremadeMap(){
+        //Create a premade map
+        //Edge shifts:
+        MapGen.verticalEdge = 1;
+        MapGen.horizontalEdge = 6;
+        //Generate 8x8 rooms
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                    map[i][j] = new Room(-1, i, j);
+            }
+        }
+        //Set room types
+        MapGen.map[0][0].setRoomType(10);
+        MapGen.map[0][1].setRoomType(8);
+        MapGen.map[0][2].setRoomType(5);
+        MapGen.map[0][3].setRoomType(7);
+        MapGen.map[0][4].setRoomType(6);
+        MapGen.map[0][5].setRoomType(10);
+        MapGen.map[0][6].setRoomType(5);
+        MapGen.map[0][7].setRoomType(7);
 
+        MapGen.map[1][0].setRoomType(10);
+        MapGen.map[1][1].setRoomType(5);
+        MapGen.map[1][2].setRoomType(7);
+        MapGen.map[1][3].setRoomType(5);
+        MapGen.map[1][4].setRoomType(7);
+        MapGen.map[1][5].setRoomType(2);
+        MapGen.map[1][6].setRoomType(7);
+        MapGen.map[1][7].setRoomType(3);
+
+        MapGen.map[2][0].setRoomType(5);
+        MapGen.map[2][1].setRoomType(7);
+        MapGen.map[2][2].setRoomType(2);
+        MapGen.map[2][3].setRoomType(7);
+        MapGen.map[2][4].setRoomType(2);
+        MapGen.map[2][5].setRoomType(0);
+        MapGen.map[2][6].setRoomType(3);
+        MapGen.map[2][7].setRoomType(6);
+
+        MapGen.map[3][0].setRoomType(8);
+        MapGen.map[3][1].setRoomType(5);
+        MapGen.map[3][2].setRoomType(1);
+        MapGen.map[3][3].setRoomType(0);
+        MapGen.map[3][4].setRoomType(5);
+        MapGen.map[3][5].setRoomType(0);
+        MapGen.map[3][6].setRoomType(8);
+        MapGen.map[3][7].setRoomType(9);
+
+        MapGen.map[4][0].setRoomType(4);
+        MapGen.map[4][1].setRoomType(8);
+        MapGen.map[4][2].setRoomType(5);
+        MapGen.map[4][3].setRoomType(1);
+        MapGen.map[4][4].setRoomType(7);
+        MapGen.map[4][5].setRoomType(3);
+        MapGen.map[4][6].setRoomType(10);
+        MapGen.map[4][7].setRoomType(5);
+
+        MapGen.map[5][0].setRoomType(7);
+        MapGen.map[5][1].setRoomType(10);
+        MapGen.map[5][2].setRoomType(6);
+        MapGen.map[5][3].setRoomType(3);
+        MapGen.map[5][4].setRoomType(2);
+        MapGen.map[5][5].setRoomType(7);
+        MapGen.map[5][6].setRoomType(5);
+        MapGen.map[5][7].setRoomType(7);
+
+        MapGen.map[6][0].setRoomType(2);
+        MapGen.map[6][1].setRoomType(0);
+        MapGen.map[6][2].setRoomType(8);
+        MapGen.map[6][3].setRoomType(6);
+        MapGen.map[6][4].setRoomType(2);
+        MapGen.map[6][5].setRoomType(1);
+        MapGen.map[6][6].setRoomType(7);
+        MapGen.map[6][7].setRoomType(5);
+
+        MapGen.map[7][0].setRoomType(0);
+        MapGen.map[7][1].setRoomType(5);
+        MapGen.map[7][2].setRoomType(0);
+        MapGen.map[7][3].setRoomType(6);
+        MapGen.map[7][4].setRoomType(2);
+        MapGen.map[7][5].setRoomType(4);
+        MapGen.map[7][6].setRoomType(3);
+        MapGen.map[7][7].setRoomType(8);
+        //Map coordinates
+        //Orbs
+        greenOrb[0] = 0;
+        greenOrb[1] = 7;
+        redOrb[0] = 0;
+        redOrb[1] = 2;
+        blueOrb[0] = 0;
+        blueOrb[1] = 3;
+        yellowOrb[0] = 5;
+        yellowOrb[1] = 0;
+        //Receptacles
+        greenReceptacle[0] = 7;
+        greenReceptacle[1] = 6;
+        redReceptacle[0] = 1;
+        redReceptacle[1] = 1;
+        blueReceptacle[0] = 0;
+        blueReceptacle[1] = 6;
+        yellowReceptacle[0] = 6;
+        yellowReceptacle[1] = 4;
+        //Trick room
+        trickRoom[0] = 3;
+        trickRoom[1] = 0;
+        //Start room
+        startingRoom[0] = 3;
+        startingRoom[1] = 3;
+        //Add coordinates to arraylist
+        coordinates.add(greenOrb);
+        coordinates.add(redOrb);
+        coordinates.add(blueOrb);
+        coordinates.add(yellowOrb);
+        coordinates.add(greenReceptacle);
+        coordinates.add(redReceptacle);
+        coordinates.add(blueReceptacle);
+        coordinates.add(yellowReceptacle);
+        coordinates.add(trickRoom);
+        coordinates.add(startingRoom);
+        
+        //Ensure first room is North=South
+        SummativeGame.northSouth = true;
+        
+        //Print where everything is to the console
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if(map[i][j].getRoomType() >= 10) {
+                    System.out.print(map[i][j].getRoomType() + " ");
+                } else {
+                    System.out.print("0" + map[i][j].getRoomType() + " ");
+                }
+            }
+            System.out.println("");
+        }
+        System.out.println("Vertical edge shift: " + verticalEdge);
+	System.out.println("Horizontal edge shift: " + horizontalEdge);
+        for(int i = 0; i < coordinates.size(); i++) {
+            System.out.println(coordinates.get(i)[0] + ", " + coordinates.get(i)[1]);
+        }
+        //Define orbs/receptacles
+        SummativeGame.greenOrb = new GreenOrb(555, 450, MapGen.coordinates.get(0)[0], MapGen.coordinates.get(0)[1]);
+        SummativeGame.redOrb = new RedOrb(555, 450, MapGen.coordinates.get(1)[0], MapGen.coordinates.get(1)[1]);
+        SummativeGame.blueOrb = new BlueOrb(555, 450, MapGen.coordinates.get(2)[0], MapGen.coordinates.get(2)[1]);
+        SummativeGame.yellowOrb = new YellowOrb(555, 450, MapGen.coordinates.get(3)[0], MapGen.coordinates.get(3)[1]);
+        SummativeGame.greenReceptacle = new GreenReceptacle(555, 450, MapGen.coordinates.get(4)[0], MapGen.coordinates.get(4)[1]);
+        SummativeGame.redReceptacle = new RedReceptacle(555, 450, MapGen.coordinates.get(5)[0], MapGen.coordinates.get(5)[1]);
+        SummativeGame.blueReceptacle = new BlueReceptacle(555, 450, MapGen.coordinates.get(6)[0], MapGen.coordinates.get(6)[1]);
+        SummativeGame.yellowReceptacle = new YellowReceptacle(555, 450, MapGen.coordinates.get(7)[0], MapGen.coordinates.get(7)[1]);
+    }
 }

@@ -119,7 +119,19 @@ public class SummativeGame extends JComponent implements ActionListener {
     public static BlueReceptacle blueReceptacle;
     public static YellowReceptacle yellowReceptacle;
     
+    //Game running boolean
     public static boolean mapCreated = false;
+    public static boolean gameWon = false;
+    
+    public static boolean greenComplete = false;
+    public static boolean redComplete = false;
+    public static boolean blueComplete = false;
+    public static boolean yellowComplete = false;
+    
+    //Variables for the timer
+    public static double timeStarted;
+    public static double timeEnded;
+    public static double timeTaken;
     
     //Images
     BufferedImage startButton = loadImage("Start.png");
@@ -682,21 +694,39 @@ public class SummativeGame extends JComponent implements ActionListener {
                     System.out.println(user.getRoomX() + ", " + user.getRoomY());
                 }
             //Win condition
-            if(GreenReceptacle.getReceptacleRoomX() == GreenOrb.getOrbRoomX() && GreenReceptacle.x == GreenOrb.x &&
-                GreenReceptacle.getReceptacleRoomY() == GreenOrb.getOrbRoomY() && GreenReceptacle.y == GreenOrb.y){
+            if(GreenReceptacle.getReceptacleRoomX() == GreenOrb.getOrbRoomX() && GreenReceptacle.x >= GreenOrb.x-GreenOrb.l &&
+                GreenReceptacle.x <= GreenOrb.x+GreenOrb.l && GreenReceptacle.getReceptacleRoomY() == GreenOrb.getOrbRoomY() &&
+                GreenReceptacle.y >= GreenOrb.y-GreenOrb.w && GreenReceptacle.y <= GreenOrb.y+GreenOrb.w){
                 GreenReceptacle.setReceptacleRoom(-1, -1);
+                GreenOrb.setOrbRoom(-1, -1);
             }
-            if(RedReceptacle.getReceptacleRoomX() == RedOrb.getOrbRoomX() && RedReceptacle.x == RedOrb.x &&
-                RedReceptacle.getReceptacleRoomY() == RedOrb.getOrbRoomY() && RedReceptacle.y == RedOrb.y){
+            if(RedReceptacle.getReceptacleRoomX() == RedOrb.getOrbRoomX() && RedReceptacle.x >= RedOrb.x-RedOrb.l &&
+                RedReceptacle.x <= RedOrb.x+RedOrb.l && RedReceptacle.getReceptacleRoomY() == RedOrb.getOrbRoomY() &&
+                RedReceptacle.y >= RedOrb.y-RedOrb.w && RedReceptacle.y <= RedOrb.y+RedOrb.w){
                 RedReceptacle.setReceptacleRoom(-1, -1);
+                RedOrb.setOrbRoom(-1, -1);
             }
-            if(BlueReceptacle.getReceptacleRoomX() == BlueOrb.getOrbRoomX() && BlueReceptacle.x == BlueOrb.x &&
-                BlueReceptacle.getReceptacleRoomY() == BlueOrb.getOrbRoomY() && BlueReceptacle.y == BlueOrb.y){
+            if(BlueReceptacle.getReceptacleRoomX() == BlueOrb.getOrbRoomX() && BlueReceptacle.x >= BlueOrb.x-BlueOrb.l &&
+                BlueReceptacle.x <= BlueOrb.x+BlueOrb.l && BlueReceptacle.getReceptacleRoomY() == BlueOrb.getOrbRoomY() &&
+                BlueReceptacle.y >= BlueOrb.y-BlueOrb.w && BlueReceptacle.y <= BlueOrb.y+BlueOrb.w){
                 BlueReceptacle.setReceptacleRoom(-1, -1);
+                BlueOrb.setOrbRoom(-1, -1);
             }
-            if(YellowReceptacle.getReceptacleRoomX() == YellowOrb.getOrbRoomX() && YellowReceptacle.x == YellowOrb.x &&
-                YellowReceptacle.getReceptacleRoomY() == YellowOrb.getOrbRoomY() && YellowReceptacle.y == YellowOrb.y){
+            if(YellowReceptacle.getReceptacleRoomX() == YellowOrb.getOrbRoomX() && YellowReceptacle.x >= YellowOrb.x-YellowOrb.l &&
+                YellowReceptacle.x <= YellowOrb.x+YellowOrb.l && YellowReceptacle.getReceptacleRoomY() == YellowOrb.getOrbRoomY() &&
+                YellowReceptacle.y >= YellowOrb.y-YellowOrb.w && YellowReceptacle.y <= YellowOrb.y+YellowOrb.w){
                 YellowReceptacle.setReceptacleRoom(-1, -1);
+                YellowOrb.setOrbRoom(-1, -1);
+            }
+            if(GreenReceptacle.getReceptacleRoomX() == -1 && GreenReceptacle.getReceptacleRoomY() == -1 &&
+                RedReceptacle.getReceptacleRoomX() == -1 && RedReceptacle.getReceptacleRoomY() == -1 &&
+                BlueReceptacle.getReceptacleRoomX() == -1 && BlueReceptacle.getReceptacleRoomY() == -1 &&
+                YellowReceptacle.getReceptacleRoomX() == -1 && YellowReceptacle.getReceptacleRoomY() == -1){
+                if(!gameWon){
+                    timeEnded = System.currentTimeMillis();
+                    timeTaken = (timeEnded-timeStarted)/1000;
+                }
+                gameWon = true;
             }
         }
     }
@@ -783,10 +813,16 @@ public class SummativeGame extends JComponent implements ActionListener {
                     MapGen.generateMap();
                     user.setRoom(MapGen.startingRoom[0], MapGen.startingRoom[1]);
                     area = MapGen.map[MapGen.startingRoom[1]][MapGen.startingRoom[0]].getRoomType();
+                    timeStarted = System.currentTimeMillis();
                 }
                 //Make premade map
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 460 && user.getXPosition() <= 655){
-                    
+                    mapCreated = true;
+                    user.setPosition(555, 450);
+                    MapGen.generatePremadeMap();
+                    user.setRoom(MapGen.startingRoom[0], MapGen.startingRoom[1]);
+                    area = MapGen.map[MapGen.startingRoom[1]][MapGen.startingRoom[0]].getRoomType();
+                    timeStarted = System.currentTimeMillis();
                 }
                 //Close on exit
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 690 && user.getXPosition() <= 885){
@@ -796,8 +832,8 @@ public class SummativeGame extends JComponent implements ActionListener {
                 if(e.getKeyChar() == 'f'){
                     System.out.println(user.getXPosition());
                 }
-            //Game movement up/down, z to select; This is second menu
-            } else if(mapCreated && area == -2){
+            //Game movement left/right, z to select; This is second menu
+            } else if(mapCreated && area == -2 && !gameWon){
                 if(e.getKeyChar() == 'a' && user.getXPosition() >= 220){
                     user.adjustXPos(-9);
                 }
@@ -830,7 +866,8 @@ public class SummativeGame extends JComponent implements ActionListener {
                     System.out.println(user.getXPosition());
                 }
             }
-            else{
+            //In game screen
+            else if(!gameWon){
                 if(e.getKeyChar() == 'a'){
                     user.adjustXPos(-7);
                 }
@@ -912,6 +949,22 @@ public class SummativeGame extends JComponent implements ActionListener {
                     
                     user.setPosition(560, 575);
                     area = -2;
+                }
+            }
+            //On the win screen
+            else if(gameWon){
+                //If enter is pressed, all the things which run the game logic will be cleared
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    gameWon = false;
+                    mapCreated = false;
+                    area = -1;
+                    MapGen.coordinates.clear();
+                    MapGen.map = null;
+                    greenComplete = false;
+                    redComplete = false;
+                    blueComplete = false;
+                    yellowComplete = false;
+                    user.setPosition(560, 575);
                 }
             }
         }
