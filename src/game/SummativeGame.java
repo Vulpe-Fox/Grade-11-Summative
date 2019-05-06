@@ -3,6 +3,7 @@ package game;
 import audio.MusicLoop;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -49,8 +50,8 @@ public class SummativeGame extends JComponent implements ActionListener {
     static final double yScreen = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     
     // Height and Width of our game
-    static final int WIDTH = (int) xScreen*6/7;
-    static final int HEIGHT = (int) yScreen*6/7;
+    static final int WIDTH = 1097;
+    static final int HEIGHT = 877;
 
 
     //Title of the window
@@ -133,12 +134,16 @@ public class SummativeGame extends JComponent implements ActionListener {
     public static double timeEnded;
     public static double timeTaken;
     
-    //Images
+    //Images/Fonts
     BufferedImage startButton = loadImage("Start.png");
     BufferedImage premadeButton = loadImage("Premade Map.png");
     BufferedImage exitButton = loadImage("Exit.png");
     BufferedImage resumeButton = loadImage("Resume.png");
     BufferedImage restartButton = loadImage("Restart.png");
+    BufferedImage controls = loadImage("Controls.png");
+    BufferedImage endGame = loadImage("Endgame Screen.png");
+    
+    Font arialBlack = new Font("Arial Black", Font.ITALIC, 40);
 
     // YOUR GAME VARIABLES WOULD GO HERE
     // GAME VARIABLES END HERE    
@@ -195,7 +200,13 @@ public class SummativeGame extends JComponent implements ActionListener {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
-        if(area != -2 && area != -1){
+        if(area == 39){
+            g.drawImage(endGame, 0, 0, null);
+            
+            g.setFont(arialBlack);
+            g.drawString("This run took " + timeTaken/60 + " minutes", 280, 445);
+        }
+        if(area != 39 && area != -2 && area != -1){
             //Corners of walls
             g.setColor(gameGrey);
             
@@ -216,25 +227,25 @@ public class SummativeGame extends JComponent implements ActionListener {
             g.fillPolygon(xHex, yHex, 6);
         }
         //Top wall
-        if(area != -2 && area != -1 && area != 0 && area != 1 && area != 2 && area != 3 && area != 4 && area != 5 && area != 10 && area != 11){
+        if(area != 39 && area != -2 && area != -1 && area != 0 && area != 1 && area != 2 && area != 3 && area != 4 && area != 5 && area != 10 && area != 11){
             defineQuad(xQuad, 490, 620, 620, 490);
             defineQuad(yQuad, 255, 255, 285, 285);
             g.fillPolygon(xQuad, yQuad, 4);
         }
         //Right wall
-        if(area != -2 && area != -1 && area != 0 && area != 3 && area != 4 && area != 6 && area != 7 && area != 8 && area != 10 && area != 12){
+        if(area != 39 && area != -2 && area != -1 && area != 0 && area != 3 && area != 4 && area != 6 && area != 7 && area != 8 && area != 10 && area != 12){
             defineQuad(xQuad, 720, 750, 750, 720);
             defineQuad(yQuad, 385, 385, 515, 515);
             g.fillPolygon(xQuad, yQuad, 4);
         }
         //Bottom wall
-        if(area != -2 && area != -1 && area != 0 && area != 1 && area != 2 && area != 7 && area != 8 && area != 9 && area != 10 && area != 13){
+        if(area != 39 && area != -2 && area != -1 && area != 0 && area != 1 && area != 2 && area != 7 && area != 8 && area != 9 && area != 10 && area != 13){
             defineQuad(xQuad, 490, 620, 620, 490);
             defineQuad(yQuad, 615, 615, 645, 645);
             g.fillPolygon(xQuad, yQuad, 4);
         }
         //Left wall
-        if(area != -2 && area != -1 && area != 2 && area != 3 && area != 5 && area != 6 && area != 8 && area != 9 && area != 10 && area != 14){
+        if(area != 39 && area != -2 && area != -1 && area != 2 && area != 3 && area != 5 && area != 6 && area != 8 && area != 9 && area != 10 && area != 14){
             defineQuad(xQuad, 390, 360, 360, 390);
             defineQuad(yQuad, 385, 385, 515, 515);
             g.fillPolygon(xQuad, yQuad, 4);
@@ -265,7 +276,7 @@ public class SummativeGame extends JComponent implements ActionListener {
             defineTriangle(yTriangle, 1, 130, 250);
             g.fillPolygon(xTriangle, yTriangle, 3);
 
-            defineTriangle(xTriangle, 1119, 920, 920);
+            defineTriangle(xTriangle, 1097, 920, 920);
             g.fillPolygon(xTriangle, yTriangle, 3);
 
             g.drawRect(200, 130, 720, 120);
@@ -334,10 +345,11 @@ public class SummativeGame extends JComponent implements ActionListener {
             defineQuad(xQuad, 845, 865, 865, 845);
             defineQuad(yQuad, 182, 182, 198, 198);
             g.fillPolygon(xQuad, yQuad, 4);
-            
+            //Images on title screen
                 g.drawImage(startButton, 230, 525, null);
                 g.drawImage(premadeButton, 460, 525, null);
                 g.drawImage(exitButton, 690, 525, null);
+                g.drawImage(controls, 335, 275, null);
         } else if(area == -2){
             //Title Box
             g.setColor(gameGreen);
@@ -503,7 +515,7 @@ public class SummativeGame extends JComponent implements ActionListener {
             }
         }
         //During game events
-        else{
+        else if(area != 39){
             area = MapGen.map[user.getRoomY()][user.getRoomX()].getRoomType();
             
             //Collision logic
@@ -727,6 +739,7 @@ public class SummativeGame extends JComponent implements ActionListener {
                     timeTaken = (timeEnded-timeStarted)/1000;
                 }
                 gameWon = true;
+                area = 39;
             }
         }
     }
@@ -806,20 +819,20 @@ public class SummativeGame extends JComponent implements ActionListener {
                 if(e.getKeyChar() == 'd' && user.getXPosition() <= 890){
                     user.adjustXPos(+9);
                 }
-                //Make map
-                if(e.getKeyChar() == 'z' && user.getXPosition() >= 230 && user.getXPosition() <= 425){
-                    mapCreated = true;
-                    user.setPosition(555, 450);
-                    MapGen.generateMap();
-                    user.setRoom(MapGen.startingRoom[0], MapGen.startingRoom[1]);
-                    area = MapGen.map[MapGen.startingRoom[1]][MapGen.startingRoom[0]].getRoomType();
-                    timeStarted = System.currentTimeMillis();
-                }
                 //Make premade map
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 460 && user.getXPosition() <= 655){
                     mapCreated = true;
                     user.setPosition(555, 450);
                     MapGen.generatePremadeMap();
+                    user.setRoom(MapGen.startingRoom[0], MapGen.startingRoom[1]);
+                    area = MapGen.map[MapGen.startingRoom[1]][MapGen.startingRoom[0]].getRoomType();
+                    timeStarted = System.currentTimeMillis();
+                }
+                //Make map
+                if(e.getKeyChar() == 'z' && user.getXPosition() >= 230 && user.getXPosition() <= 425){
+                    mapCreated = true;
+                    user.setPosition(555, 450);
+                    MapGen.generateMap();
                     user.setRoom(MapGen.startingRoom[0], MapGen.startingRoom[1]);
                     area = MapGen.map[MapGen.startingRoom[1]][MapGen.startingRoom[0]].getRoomType();
                     timeStarted = System.currentTimeMillis();

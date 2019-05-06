@@ -39,10 +39,12 @@ public class YellowReceptacle extends Entity{
     
     @Override
     public void draw(Graphics g){
-        g.setColor(Color.black);
-        g.fillOval(x-(5*w/8), y-(5*l/8), 5*w/4, 5*l/4);
-        g.setColor(SummativeGame.gameYellow);
-        g.fillOval(x-(w/2), y-(l/2), w, l);
+        if(SummativeGame.area >= 0){
+            g.setColor(Color.black);
+            g.fillOval(x-(5*w/8), y-(5*l/8), 5*w/4, 5*l/4);
+            g.setColor(SummativeGame.gameYellow);
+            g.fillOval(x-(w/2), y-(l/2), w, l);
+        }
     }
     
     public static int getReceptacleRoomX(){
