@@ -204,7 +204,8 @@ public class SummativeGame extends JComponent implements ActionListener {
             g.drawImage(endGame, 0, 0, null);
             
             g.setFont(arialBlack);
-            g.drawString("This run took " + timeTaken/60 + " minutes", 280, 445);
+            String output = String.format("This run took %.2f minutes", timeTaken/60);
+            g.drawString(output, 240, 445);
         }
         if(area != 39 && area != -2 && area != -1){
             //Corners of walls
@@ -440,7 +441,7 @@ public class SummativeGame extends JComponent implements ActionListener {
         }
         catch(Exception e){}
         
-        //Draw orb
+        //Draw orbs if map is created
         if(mapCreated){
             if(SummativeGame.user.getRoomX() == GreenOrb.getOrbRoomX() && SummativeGame.user.getRoomY() == GreenOrb.getOrbRoomY()){
                 greenOrb.draw(g);
@@ -705,7 +706,7 @@ public class SummativeGame extends JComponent implements ActionListener {
                 }catch(ArrayIndexOutOfBoundsException e){
                     System.out.println(user.getRoomX() + ", " + user.getRoomY());
                 }
-            //Win condition
+            //Win condition, use orbs on receptacles
             if(GreenReceptacle.getReceptacleRoomX() == GreenOrb.getOrbRoomX() && GreenReceptacle.x >= GreenOrb.x-GreenOrb.l &&
                 GreenReceptacle.x <= GreenOrb.x+GreenOrb.l && GreenReceptacle.getReceptacleRoomY() == GreenOrb.getOrbRoomY() &&
                 GreenReceptacle.y >= GreenOrb.y-GreenOrb.w && GreenReceptacle.y <= GreenOrb.y+GreenOrb.w){
@@ -730,6 +731,7 @@ public class SummativeGame extends JComponent implements ActionListener {
                 YellowReceptacle.setReceptacleRoom(-1, -1);
                 YellowOrb.setOrbRoom(-1, -1);
             }
+            //If all receptacles have been activated, set to endgame screen
             if(GreenReceptacle.getReceptacleRoomX() == -1 && GreenReceptacle.getReceptacleRoomY() == -1 &&
                 RedReceptacle.getReceptacleRoomX() == -1 && RedReceptacle.getReceptacleRoomY() == -1 &&
                 BlueReceptacle.getReceptacleRoomX() == -1 && BlueReceptacle.getReceptacleRoomY() == -1 &&
@@ -743,7 +745,7 @@ public class SummativeGame extends JComponent implements ActionListener {
             }
         }
     }
-
+    //Methods to draw shapes
     private void defineTriangle(int[] array, int p1, int p2, int p3) {
         array[0] = p1;
         array[1] = p2;
@@ -881,6 +883,7 @@ public class SummativeGame extends JComponent implements ActionListener {
             }
             //In game screen
             else if(!gameWon){
+                //Movement left/right/up/down
                 if(e.getKeyChar() == 'a'){
                     user.adjustXPos(-7);
                 }
@@ -893,6 +896,7 @@ public class SummativeGame extends JComponent implements ActionListener {
                 if(e.getKeyChar() == 's'){
                     user.adjustYPos(+7);
                 }
+                //Pickup/drop orbs
                 if(e.getKeyChar() == 'z'){
                     if(user.getHeldOrb() != 0){
                         if(user.getHeldOrb() == 1){
@@ -942,18 +946,14 @@ public class SummativeGame extends JComponent implements ActionListener {
                         }
                     }
                 }
-                if(e.getKeyChar() == 'f'){
-                    System.out.println(user.getXPosition());
-                    System.out.println(user.getYPosition());
-                    
-                    System.out.println(user.getRoomX() + ", " + user.getRoomY());
-                }
+                //Cheatcode for moving between rooms
                 if(e.getKeyChar() == 'i'){
                     bugfixX = Integer.parseInt(bugfixConsoleInput.nextLine());
                     bugfixY = Integer.parseInt(bugfixConsoleInput.nextLine());
                     user.setRoom(bugfixX, bugfixY);
                     area = MapGen.map[bugfixY][bugfixX].getRoomType();
                 }
+                //Escape to menu
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     heldPlayerLocation[0] = user.getRoomX();
                     heldPlayerLocation[1] = user.getRoomY();
