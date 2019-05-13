@@ -435,11 +435,13 @@ public class SummativeGame extends JComponent implements ActionListener {
         }
         
         
-        //Draw user
-        try{
-            user.draw(g);
+        //Draw user if not on end screen
+        if(area != 39){
+            try{
+                user.draw(g);
+            }
+            catch(Exception e){}
         }
-        catch(Exception e){}
         
         //Draw orbs if map is created
         if(mapCreated){
