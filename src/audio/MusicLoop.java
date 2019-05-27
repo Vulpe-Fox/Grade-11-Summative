@@ -6,6 +6,16 @@
 package audio;
 
 import game.SummativeGame;
+import java.nio.ShortBuffer;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.ALC;
+import static org.lwjgl.openal.ALC10.ALC_DEFAULT_DEVICE_SPECIFIER;
+import static org.lwjgl.openal.ALC10.alcCreateContext;
+import static org.lwjgl.openal.ALC10.alcGetString;
+import static org.lwjgl.openal.ALC10.alcMakeContextCurrent;
+import static org.lwjgl.openal.ALC10.alcOpenDevice;
+import org.lwjgl.openal.ALCCapabilities;
+import org.lwjgl.openal.ALCapabilities;
 
 /**
  *
@@ -18,6 +28,26 @@ public class MusicLoop extends Thread{
     
     public static String path = new String();
     
+    
+    @Override
+    public void start(){
+        
+        String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
+        long device = alcOpenDevice(defaultDeviceName);
+        int[] attributes = {0};
+        long context = alcCreateContext(device, attributes);
+
+        alcMakeContextCurrent(context);
+        ALCCapabilities alcCapabilities = ALC.createCapabilities(device);
+        ALCapabilities alCapabilities = AL.createCapabilities(alcCapabilities);
+        
+        ShortBuffer rawAudioBuffer;
+
+        int channels;
+        int sampleRate;
+        
+    }
+    
     @Override
     public void run(){
         
@@ -29,7 +59,8 @@ public class MusicLoop extends Thread{
             switch(songId){
                 //1: Title Scrren Music
                 case 1:
-                    //path = "audio/";
+                    path = "TitleTrack.wav";
+                    System.out.println("Music Loaded: Title Screen");
                 case 2:
                     
                 case 3:
@@ -41,7 +72,7 @@ public class MusicLoop extends Thread{
                 default:
                     
             }
-            if(path.equals("ignore")){
+            if(!path.equals("")){
                 int buffer = Music.loadSound(path);
                 Source source = new Source();
 
