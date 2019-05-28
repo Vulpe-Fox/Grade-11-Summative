@@ -1,5 +1,6 @@
 package game;
 
+import audio.Music;
 import audio.MusicLoop;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -843,6 +844,7 @@ public class SummativeGame extends JComponent implements ActionListener {
                 }
                 //Close on exit
                 if(e.getKeyChar() == 'z' && user.getXPosition() >= 690 && user.getXPosition() <= 885){
+                    Music.cleaning();
                     System.exit(0);
                 }
                 //Bugtest location data

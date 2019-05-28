@@ -23,6 +23,8 @@ import org.lwjgl.openal.ALCapabilities;
  */
 public class MusicLoop extends Thread{
     public static boolean gameRunning = true;
+    public static boolean firstRun = true;
+    public static boolean musicLoaded = false;
     
     public static int songId = 0;
     
@@ -32,11 +34,16 @@ public class MusicLoop extends Thread{
     @Override
     public void start(){
         
+        System.out.println("Initializing music");
+        //Music.initialization();
+        
         String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
         long device = alcOpenDevice(defaultDeviceName);
         int[] attributes = {0};
         long context = alcCreateContext(device, attributes);
 
+        System.out.println("Creating sound capabilities");
+        
         alcMakeContextCurrent(context);
         ALCCapabilities alcCapabilities = ALC.createCapabilities(device);
         ALCapabilities alCapabilities = AL.createCapabilities(alcCapabilities);
@@ -50,29 +57,32 @@ public class MusicLoop extends Thread{
     
     @Override
     public void run(){
-        
-        Music.initialization();
-        System.out.println("Music Initialized");
+        if(firstRun){
+            System.out.println("Music Initialized");
+            firstRun = false;
+        }
         
         while(gameRunning = true){
             songId = SummativeGame.getSongId();
-            switch(songId){
-                //1: Title Scrren Music
-                case 1:
-                    path = "TitleTrack.wav";
-                    System.out.println("Music Loaded: Title Screen");
-                case 2:
-                    
-                case 3:
-                    
-                case 4:    
-                
-                case 5:
-                
-                default:
-                    
+            if(!musicLoaded){
+                switch(songId){
+                    //1: Title Scrren Music
+                    case 1:
+                        path = "TitleTrack.wav";
+                        System.out.println("Music Loaded: Title Screen");
+                    case 2:
+
+                    case 3:
+
+                    case 4:    
+
+                    case 5:
+
+                    default:
+                }
+                musicLoaded = true;
             }
-            if(!path.equals("")){
+            if(path.equals("")){
                 int buffer = Music.loadSound(path);
                 Source source = new Source();
 
