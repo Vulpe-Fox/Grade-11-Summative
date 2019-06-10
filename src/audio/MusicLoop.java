@@ -6,24 +6,8 @@
 package audio;
 
 import game.SummativeGame;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
-import org.lwjgl.openal.AL11;
-import org.lwjgl.openal.ALC;
-import static org.lwjgl.openal.ALC10.ALC_DEFAULT_DEVICE_SPECIFIER;
-import static org.lwjgl.openal.ALC10.alcCreateContext;
-import static org.lwjgl.openal.ALC10.alcGetString;
-import static org.lwjgl.openal.ALC10.alcMakeContextCurrent;
-import static org.lwjgl.openal.ALC10.alcOpenDevice;
-import org.lwjgl.openal.ALCCapabilities;
-import org.lwjgl.openal.ALCapabilities;
+import static org.lwjgl.openal.AL10.alGetSourcei;
 
 /**
  *
@@ -35,70 +19,65 @@ public class MusicLoop extends Thread{
     public static boolean musicLoaded = false;
     public static boolean musicPlaying = false;
     
-    public static int songId = 0;
+    public static int songId = 1;
     
     public static String path = new String();
     
     @Override
     public void run(){
+        //Initialize the music listener and add audio context
         System.out.println("Initializing music");
-        //Music.initialization();
-        
-        String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
-        long device = alcOpenDevice(defaultDeviceName);
-        int[] attributes = {0};
-        long context = alcCreateContext(device, attributes);
-
-        System.out.println("Creating sound capabilities");
-        
-        alcMakeContextCurrent(context);
-        ALCCapabilities alcCapabilities = ALC.createCapabilities(device);
-        ALCapabilities alCapabilities = AL.createCapabilities(alcCapabilities);
-        
-        ShortBuffer rawAudioBuffer;
-
-        int channels;
-        int sampleRate;
-        
-        if(firstRun){
-            System.out.println("Music Initialized");
-            firstRun = false;
-        }
-        
-        while(gameRunning = true){
+        Music.initialization();
+        Music.setListenerData();
+        System.out.println("Music Initialized");
+        //Loop while game is running
+        while(gameRunning){
+            //Get songid for a specific zone in the game
             songId = SummativeGame.getSongId();
-            if(!musicLoaded){
+            //If music is unloaded, choose an audio track using the songid
+            while(!musicLoaded){
                 switch(songId){
                     //1: Title Scrren Music
                     case 1:
                         path = "TitleTrack.wav";
                     case 2:
-
                     case 3:
-
-                    case 4:    
-
-                    case 5:
-
-                    default:
                 }
-                System.out.println("Music Loaded: " + path);
-                musicLoaded = true;
+                if(path.equals("")){
+                    
+                } else{
+                    System.out.println("Music Loaded: " + path);
+                    //Set musicloaded to true
+                    musicLoaded = true;
+                }
             }
-            if(!path.equals("") && musicLoaded && !musicPlaying){
+            //If the title track for music is loaded, initialize a source using the wav file
+            if(path.equals("TitleTrack.wav") && musicLoaded){
                 int buffer = Music.loadSound(path);
                 Source source = new Source();
-
-                source.play(buffer);
-
-                source.delete();
-                Music.cleaning();
                 
-            }
-            if(musicLoaded && !musicPlaying){
+                //Play music
                 System.out.println("Playing music: " + path);
-                AL10.alSourcePlay(Music.loadSound(path));
                 musicPlaying = true;
+                source.play(buffer);
+                //While music is loaded, keep checking whether A) Area has changed -- or B) Music has stopped
+                while(musicLoaded){
+                    //Area not title
+                    if(SummativeGame.area != -1){
+                        source.delete();
+                        Music.cleaning();
+                        musicLoaded = false;
+                    }
+                    //Music not playing
+                    if(AL10.alGetSourcei(source.sourceId, AL10.AL_SOURCE_STATE) == AL10.AL_STOPPED){
+                        source.delete();
+                        Music.cleaning();
+                        musicLoaded = false;
+                    }
+                }
+                
+            } else if(path.equals("[][]")){
+                        
             }
         }
     }

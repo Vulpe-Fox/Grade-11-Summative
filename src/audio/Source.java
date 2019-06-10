@@ -13,7 +13,7 @@ import org.lwjgl.openal.AL10;
  */
 public class Source {
     
-    private final int sourceId;
+    public final int sourceId;
     
     public Source(){
         sourceId = AL10.alGenSources();
