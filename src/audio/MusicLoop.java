@@ -72,7 +72,8 @@ public class MusicLoop extends Thread{
                     if(AL10.alGetSourcei(source.sourceId, AL10.AL_SOURCE_STATE) == AL10.AL_STOPPED){
                         source.delete();
                         Music.cleaning();
-                        musicLoaded = false;
+                        musicLoaded = true;
+                        break;
                     }
                 }
                 
