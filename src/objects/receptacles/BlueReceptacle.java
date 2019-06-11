@@ -40,7 +40,7 @@ public class BlueReceptacle extends Entity{
     @Override
     public void draw(Graphics g){
         if(SummativeGame.area >= 0){
-            g.setColor(Color.black);
+            g.setColor(Color.white);
             g.fillOval(x-(5*w/8), y-(5*l/8), 5*w/4, 5*l/4);
             g.setColor(SummativeGame.gameBlue);
             g.fillOval(x-(w/2), y-(l/2), w, l);

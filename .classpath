@@ -8,5 +8,8 @@
 	<classpathentry kind="lib" path="lib/lwjgl-openal.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-sources.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-openal-sources.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-openal-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-openal-javadoc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

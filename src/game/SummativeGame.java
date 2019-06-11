@@ -202,6 +202,13 @@ public class SummativeGame extends JComponent implements ActionListener {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
+
+    	//Background
+    	g.setColor(Color.BLACK);
+    	g.fillRect(0, 0, WIDTH, HEIGHT);
+    	
+        
+        
         if(area == 39){
             g.drawImage(endGame, 0, 0, null);
             
