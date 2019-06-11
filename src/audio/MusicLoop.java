@@ -37,11 +37,14 @@ public class MusicLoop extends Thread{
             //If music is unloaded, choose an audio track using the songid
             while(!musicLoaded){
                 switch(songId){
-                    //1: Title Scrren Music
+                    //1: Title Screen Music
                     case 1:
                         path = "TitleTrack.wav";
+                        break;
+                    //2: Game Music
                     case 2:
-                    case 3:
+                    	path = "RepetitiveGameTrack.wav";
+                    	break;
                 }
                 if(path.equals("")){
                     
@@ -63,7 +66,7 @@ public class MusicLoop extends Thread{
                 //While music is loaded, keep checking whether A) Area has changed -- or B) Music has stopped
                 while(musicLoaded){
                     //Area not title
-                    if(SummativeGame.area != -1){
+                    if(SummativeGame.area != -1 && SummativeGame.area != -2){
                         source.delete();
                         Music.cleaning();
                         musicLoaded = false;
@@ -77,8 +80,30 @@ public class MusicLoop extends Thread{
                     }
                 }
                 
-            } else if(path.equals("[][]")){
-                        
+            } else if(path.equals("RepetitiveGameTrack.wav") && musicLoaded){
+            	int buffer = Music.loadSound(path);
+                Source source = new Source();
+                
+                //Play music
+                System.out.println("Playing music: " + path);
+                musicPlaying = true;
+                source.play(buffer);
+                //While music is loaded, keep checking whether A) Area has changed -- or B) Music has stopped
+                while(musicLoaded){
+                    //Area not title
+                    if(SummativeGame.area == -1 || SummativeGame.area == -2){
+                        source.delete();
+                        Music.cleaning();
+                        musicLoaded = false;
+                    }
+                    //Music not playing
+                    if(AL10.alGetSourcei(source.sourceId, AL10.AL_SOURCE_STATE) == AL10.AL_STOPPED){
+                        source.delete();
+                        Music.cleaning();
+                        musicLoaded = true;
+                        break;
+                    }
+                }
             }
         }
     }

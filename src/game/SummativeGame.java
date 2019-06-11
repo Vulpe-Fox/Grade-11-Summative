@@ -25,6 +25,10 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+
+import org.lwjgl.openal.AL10;
+import org.lwjgl.openal.ALC;
+
 import objects.Player;
 import objects.orbs.BlueOrb;
 import objects.orbs.GreenOrb;
@@ -508,6 +512,11 @@ public class SummativeGame extends JComponent implements ActionListener {
     // The main game loop
     // In here is where all the logic for my game will go
     public void gameLoop() {
+    	if(area == -1 || area == -2) {
+    		songId = 1;
+    	} else {
+    		songId = 2;
+    	}
         //Startup menu
         if(!mapCreated){
             if(user.getXPosition() > 885){
