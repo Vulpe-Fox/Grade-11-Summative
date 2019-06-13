@@ -300,8 +300,8 @@ public class MapGen {
 		// Check whether right room is west-facing or undefined
 		if (map[relativeY][relativeX].getRoomType() == 2 || map[relativeY][relativeX].getRoomType() == 3
 				|| map[relativeY][relativeX].getRoomType() == 5 || map[relativeY][relativeX].getRoomType() == 6
-				|| map[relativeY][relativeX].getRoomType() == 8 || map[relativeY][relativeX].getRoomType() == 10 
-                                || map[relativeY][relativeX].getRoomType() == 14) {
+				|| map[relativeY][relativeX].getRoomType() == 8 || map[relativeY][relativeX].getRoomType() == 9
+                                || map[relativeY][relativeX].getRoomType() == 10 || map[relativeY][relativeX].getRoomType() == 14) {
 			right = true;
 		}
 		if (map[relativeY][relativeX].getRoomType() == -1) {
@@ -410,7 +410,8 @@ public class MapGen {
 		if((top && right && bottom && left) || (top && right && bottom && undefLeft) || (top && right && undefBottom && left) || (top && right && bottom && undefLeft)
 				|| (top && undefRight && bottom && left) || (top && undefRight && bottom && undefLeft) || (top && undefRight && undefBottom && left) || (top && undefRight && bottom && undefLeft)
 				|| (undefTop && right && bottom && left) || (undefTop && right && bottom && undefLeft) || (undefTop && right && undefBottom && left) || (undefTop && right && bottom && undefLeft)
-				|| (undefTop && undefRight && bottom && left) || (undefTop && undefRight && bottom && undefLeft) || (undefTop && undefRight && undefBottom && left) || (undefTop && undefRight && bottom && undefLeft)) {
+				|| (undefTop && undefRight && bottom && left) || (undefTop && undefRight && bottom && undefLeft) || (undefTop && undefRight && undefBottom && left) || (undefTop && undefRight && bottom && undefLeft)
+                                || (undefTop && undefRight && undefBottom && undefLeft)) {
 			rooms.add(10);
 		}
                 //Type 11
