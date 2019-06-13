@@ -323,10 +323,10 @@ public class MapGen {
 			relativeX = posX;
 		}
 		// Check whether bottom room is north-facing or undefined
-		if (map[relativeY][relativeX].getRoomType() == 0 || map[relativeY][relativeX].getRoomType() == 1  || map[relativeX][relativeY].getRoomType() == 2 
-				|| map[relativeY][relativeX].getRoomType() == 3 || map[relativeY][relativeX].getRoomType() == 4
-				|| map[relativeY][relativeX].getRoomType() == 5 || map[relativeY][relativeX].getRoomType() == 10
-                                || map[relativeY][relativeX].getRoomType() == 11) {
+		if (map[relativeY][relativeX].getRoomType() == 0 || map[relativeY][relativeX].getRoomType() == 1  
+                                || map[relativeX][relativeY].getRoomType() == 2 || map[relativeY][relativeX].getRoomType() == 3 
+                                || map[relativeY][relativeX].getRoomType() == 4 || map[relativeY][relativeX].getRoomType() == 5 
+                                || map[relativeY][relativeX].getRoomType() == 10 || map[relativeY][relativeX].getRoomType() == 11) {
 			bottom = true;
 		}
 		if (map[relativeY][relativeX].getRoomType() == -1) {
