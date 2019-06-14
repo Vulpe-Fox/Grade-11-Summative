@@ -681,7 +681,7 @@ public class SummativeGame extends JComponent implements ActionListener {
                     }
                     northSouth = true;
                 }
-                //Fix for a bug when crosses two thresholds in one move
+                //Fix for a bug when crosses two thresholds in one move -- Causes a bug where walls sometimes close behind you. This makes sense for the game, so I'm keeping it!
                 while(user.getRoomX() < 0 || user.getRoomX() > 7 || user.getRoomY() < 0 || user.getRoomY() > 7){
                     if(user.getRoomX() > 7){
                         if(user.getRoomY()+MapGen.verticalEdge >= 7){
