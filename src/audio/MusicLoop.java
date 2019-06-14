@@ -60,7 +60,7 @@ public class MusicLoop extends Thread{
                 Source source = new Source();
                 
                 //Play music
-                System.out.println("Playing music: " + path);
+                System.out.println("Playing Track: " + path);
                 musicPlaying = true;
                 source.play(buffer);
                 //While music is loaded, keep checking whether A) Area has changed -- or B) Music has stopped

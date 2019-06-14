@@ -445,6 +445,7 @@ public class SummativeGame extends JComponent implements ActionListener {
                 g.drawImage(restartButton, 230, 525, null);
                 g.drawImage(resumeButton, 460, 525, null);
                 g.drawImage(exitButton, 690, 525, null);
+                g.drawImage(controls, 335, 275, null);
         }
         
         
