@@ -2,7 +2,6 @@ package game;
 
 import audio.Music;
 import audio.MusicLoop;
-import audio.Source;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -25,9 +24,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
-
-import org.lwjgl.openal.AL10;
-import org.lwjgl.openal.ALC;
 
 import objects.Player;
 import objects.orbs.BlueOrb;
