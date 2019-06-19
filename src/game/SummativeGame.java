@@ -454,7 +454,7 @@ public class SummativeGame extends JComponent implements ActionListener {
         }
         
         //Draw orbs if map is created
-        if(mapCreated){
+        if(mapCreated && area != -2){
             if(SummativeGame.user.getRoomX() == GreenOrb.getOrbRoomX() && SummativeGame.user.getRoomY() == GreenOrb.getOrbRoomY()){
                 greenOrb.draw(g);
             }
